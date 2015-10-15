@@ -1,0 +1,19 @@
+mailing_new:
+  url: /mailing/bekijk/:id
+  param: { module: mailing, action: viewonline }
+  
+mailing_viewonline:
+  url: /mailing/render/:id
+  param: { module: mailing, action: render }
+  
+mailing_subscribe:
+  url: /:sf_culture/nieuwsbrief/inschrijven
+  param: { module: mailing, action: subscribe }
+  
+mailing_unsubscribe:
+  url: /:sf_culture/nieuwsbrief/uitschrijven
+  param: { module: mailing, action: unsubscribe }
+  
+mailing_confirm:
+  url: /:sf_culture/nieuwsbrief/bevestigen
+  param: { module: mailing, action: confirm }

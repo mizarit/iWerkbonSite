@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="de" datatype="plaintext" original="messages" date="2010-10-01T11:14:48Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit id="1">
+        <source>Verzenden</source>
+        <target>Senden</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Naam *</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Telefoonnummer *</source>
+        <target>Telefon</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>E-mail adres *</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Organisatie</source>
+        <target>Firma</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Uw vraag of opmerking *</source>
+        <target>Ihre Frage oder Anmerkung</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Naam * is een verplicht veld</source>
+        <target>Name ist vorgeschrieben</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Telefoonnummer * is een verplicht veld</source>
+        <target>Telefon ist vorgeschrieben</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>E-mail adres * is een verplicht veld</source>
+        <target>Email ist vorgeschrieben</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Uw vraag of opmerking * is een verplicht veld</source>
+        <target>Ihre Frage oder Anmerkung ist vorgeschrieben</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>wie zijn wij</source>
+        <target>über NarComm</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>referenties</source>
+        <target>referenz</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>producten</source>
+        <target>produkte</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>nieuws</source>
+        <target>nachrichten</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>contact</source>
+        <target>kontakt</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>colofon</source>
+        <target>impressum</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>route</source>
+        <target>anfahrt</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>contactgegevens</source>
+        <target>kontakt</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>choose your language</source>
+        <target>wählen Sie Ihre Sprache</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Kies uw product</source>
+        <target>Wählen Sie Ihr Produkt</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Laatste nieuws</source>
+        <target>Aktuelle Nachrichten</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

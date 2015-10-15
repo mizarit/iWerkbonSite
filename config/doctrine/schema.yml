@@ -1,0 +1,8 @@
+Page:
+  columns:
+    title: varchar(255)
+    htmltitle: varchar(255)
+    content: longvarchar
+    visible: boolean
+    metatitle: varchar(255)
+    metadescription: varchar(255)

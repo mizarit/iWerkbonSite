@@ -1,0 +1,28 @@
+list:
+  title:     Bedrijven
+  name:      bedrijf
+  labels:
+    create:  Nieuw bedrijf
+  adapter:   propel
+  view:      basic
+  model:     company
+  fields:
+    title:
+      label: Naam
+      width: 300
+    calendar_id:
+      label: Calendar Id
+  ordering:  [ title ]
+  order:     title
+
+edit:
+  fields:
+    title:
+      label:  Titel
+      type:   input
+    calendarId:
+      label:  Calendar Id
+      type:   input
+    sites:
+      label:  API
+      type:   { helper: Company, method: company_edit_api } 

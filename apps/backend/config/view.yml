@@ -1,0 +1,21 @@
+default:
+  http_metas:
+    content-type: text/html
+
+  metas:
+    title:        zeusCMS4 Health Challenge
+
+  stylesheets:    
+    - /zeusCore/css/zeus-backend-screen.css
+    - /zeusCore/css/zeus-ribbon-screen.css
+    - /zeusCore/css/lightwindow.css
+
+  javascripts:    
+    - /zeusCore/js/prototype/prototype.js
+    - /zeusCore/js/tiny_mce/tiny_mce.js
+    - "/zeusCore/js/scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"
+    - /zeusCore/js/lightwindow/lightwindow.js
+    - /zeusCore/js/extjs/adapter/ext/ext-base.js
+    - /zeusCore/js/extjs/ext-all.js
+  has_layout:     true
+  layout:         layout

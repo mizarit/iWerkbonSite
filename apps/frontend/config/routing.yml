@@ -1,0 +1,58 @@
+# default rules
+
+homepage:
+  url:   /
+  param: { module: admin, action: planboard }
+  
+mailing_viewonline:
+  url: /nieuwsbrief/bekijken/:id
+  param: { module: mailing, action: render }
+  
+search:
+  url: /zoeken
+  param: { module: search, action: index }
+  
+sitemap:
+  url: /sitemap
+  param: { module: sitemap, action: index }
+  
+googlesitemap:
+  url: /ggs
+  param: { module: sitemap, action: googleSitemap }
+
+test:
+  url: /apisoap_finalizeAppointment
+  param: { module: api, action: debug }
+  
+contactform:
+  url:   /formulier/contact
+  param: { module: form, action: index, f: contact }
+  
+joinform:
+  url:   /formulier/meedoen
+  param: { module: form, action: index, f: join }
+  
+signupform:
+  url:   /formulier/aanmelden
+  param: { module: form, action: index, f: signup }
+ 
+genericformthanks:
+  url:   /formulier/:f/bedankt
+  param: { module: form, action: thankyou }
+
+mailing_index:
+  url:   /nieuwsbrief
+  param: { module: mailing, action: index }
+  
+contentpage:
+  url:   /:p
+  param: { module: page, action: index }
+  
+# generic rules
+# please, remove them by adding more specific rules
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

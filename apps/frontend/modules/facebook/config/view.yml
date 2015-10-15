@@ -1,0 +1,11 @@
+all:
+  stylesheets: [ facebook-screen ]
+  javascripts: [ /js/booking.js ]
+  
+indexSuccess:
+  javascripts: [ /zeusCore/js/lightwindow/lightwindow.js ] 
+  stylesheets: [ /zeusCore/css/lightwindow.css ]
+  
+detailSuccess:
+  javascripts: [ /zeusCore/js/lightwindow/lightwindow.js ] 
+  stylesheets: [ /zeusCore/css/lightwindow.css ]

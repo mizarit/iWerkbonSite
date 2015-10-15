@@ -1,0 +1,6 @@
+all:
+  is_secure: true
+  
+render:
+  is_secure: false
+  

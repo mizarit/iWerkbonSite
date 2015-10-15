@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="nl" datatype="plaintext" original="messages" date="2010-10-01T11:21:56Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit id="1">
+        <source>wie zijn wij</source>
+        <target>over NarComm</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>referenties</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>producten</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>nieuws</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>contact</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>colofon</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>route</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>contactgegevens</source>
+        <target>contact</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Verzenden</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>choose your language</source>
+        <target>kies uw taal</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Kies uw product</source>
+        <target/>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

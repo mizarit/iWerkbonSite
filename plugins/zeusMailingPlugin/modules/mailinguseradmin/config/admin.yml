@@ -1,0 +1,35 @@
+list:
+  title:     Inschrijvingen
+  name:      inschrijvingen
+  labels:
+    create:  Nieuwe inschrijving
+  adapter:   propel
+  view:      basic
+  model:     mailinguser
+  fields:   
+    title:
+      label: Bedrijfsnaam
+    name:
+      label: Naam
+    email:
+      label: E-mail adres
+    mailinglist:
+      label: Nieuwsbrieflijsten
+      type:  { helper: Mailinguser, method: mailinguser_list_mailinglists }
+  ordering:  [ title ]
+  order:     title desc
+  
+edit:
+  fields:    
+    title:
+      label:  Bedrijfsaam
+      type:   input
+    name:
+      label:  Naam
+    email:
+      label:  E-mail adres
+      type:   input
+    subscriptions:
+      label:  Nieuwsbrieflijsten
+      type:   { helper: Mailinguser, method: mailinguser_edit_subscriptions }
+   

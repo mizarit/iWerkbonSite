@@ -1,0 +1,16 @@
+.summary {
+  margin-top: 20px;
+  border-top: #cecece 1px dotted;
+  padding: 0;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.summary td {
+  padding: 5px 0;
+  border-bottom: #cecece 1px dotted;
+}
+
+.mailing-summary p {
+  margin: 0 !important;
+}

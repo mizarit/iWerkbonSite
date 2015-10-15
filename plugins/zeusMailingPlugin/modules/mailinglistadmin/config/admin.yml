@@ -1,0 +1,28 @@
+list:
+  title:     Nieuwsbrieflijsten
+  name:      nieuwsbrieflijst
+  labels:
+    create:  Nieuwe nieuwsbrieflijst
+  adapter:   propel
+  view:      basic
+  model:     mailinglist
+  fields:   
+    title:
+      label: Titel
+    email:
+      label:  Beheerder e-mail
+  ordering:  [ title ]
+  order:     title desc
+  
+edit:
+  fields:    
+    title:
+      label:  Titel
+      type:   input
+    email:
+      label:  Beheerder e-mail
+      type:   input
+    defaulttemplate:
+      label:  Standaard template
+      type:   { helper: Mailinglist, method: mailinglist_default_template }
+   

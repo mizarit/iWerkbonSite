@@ -1,0 +1,4 @@
+all:
+  is_secure: true
+login:
+  is_secure: false

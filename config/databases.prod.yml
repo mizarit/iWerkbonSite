@@ -1,0 +1,54 @@
+dev:
+  propel:
+    param:
+      classname:  DebugPDO
+
+test:
+  propel:
+    param:
+      classname:  DebugPDO
+
+all:
+  propel:
+    class:        sfPropelDatabase
+    param:
+      classname:  PropelPDO
+      dsn:        mysql:dbname=mizarresel_pv;host=localhost
+      username:   mizarresel_pv
+      password:   mizarresel_pv
+      encoding:   utf8
+      persistent: true
+      pooling:    true
+      
+  support:
+    class:          sfPropelDatabase
+    param:
+      classname:  PropelPDO
+      dsn:        mysql:dbname=demo-support;host=daenerys.bugbyte.nl
+      username:   zeus-demo
+      password:   zeus-demo
+      encoding:   utf8
+      persistent: true
+      pooling:    true
+
+  mailing:
+    class:          sfPropelDatabase
+    param:
+      classname:  PropelPDO
+      dsn:        mysql:dbname=mizarresel_pv;host=localhost
+      username:   mizarresel_pv
+      password:   mizarresel_pv
+      encoding:   utf8
+      persistent: true
+      pooling:    true
+      
+  news:
+    class:          sfPropelDatabase
+    param:
+      classname:  PropelPDO
+      dsn:        mysql:dbname=mizarresel_pv;host=localhost
+      username:   mizarresel_pv
+      password:   mizarresel_pv
+      encoding:   utf8
+      persistent: true
+      pooling:    true

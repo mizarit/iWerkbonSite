@@ -1,0 +1,88 @@
+prod:
+  .settings:
+    no_script_name:         true
+    logging_enabled:        false
+
+dev:
+  .settings:
+    error_reporting:        <?php echo (E_ALL | E_STRICT)."\n" ?>
+    web_debug:              true
+    cache:                  false
+    no_script_name:         false
+    etag:                   false
+
+test:
+  .settings:
+    error_reporting:        <?php echo ((E_ALL | E_STRICT) ^ E_NOTICE)."\n" ?>
+    cache:                  false
+    web_debug:              false
+    no_script_name:         false
+    etag:                   false
+
+all:
+  .settings:
+    # Form security secret (CSRF protection)
+    #csrf_secret:       1a516927b2c646b78e0fa482b1a66f8a2fafc228     # Unique secret to enable CSRF protection or false to disable
+    csrf_secret: false
+    
+    # Output escaping settings
+    escaping_strategy:      true            # Determines how variables are made available to templates. Accepted values: true, false.
+    escaping_method:        ESC_SPECIALCHARS # Function or helper used for escaping. Accepted values: ESC_RAW, ESC_ENTITIES, ESC_JS, ESC_JS_NO_ENTITIES, and ESC_SPECIALCHARS.
+
+    # Cache settings
+    lazy_cache_key:         true        # Delays creation of a cache key until after checking whether an action or partial is cacheable
+    
+    enabled_modules:
+      - default
+      - sfGuardAuth
+      - sfGuardGroup
+      - sfGuardUser
+      - sfGuardPermission
+      - sfGuardModule
+      - pageadmin
+      - newsadmin
+      - filesadmin
+      - dashboardadmin
+      - settingsadmin
+      - formadmin
+      - menuadmin
+      - securityadmin
+      - linklist
+      - versionsadmin
+      - shopproductadmin
+      - shopcategoryadmin
+      - shoporderadmin
+      - shopcustomeradmin
+      - shoptemplateadmin
+      - shopconfigadmin 
+      - mailingconceptadmin
+      - mailingsubscriptionadmin
+      - mailingmailinglistadmin
+      - mailingtemplateadmin
+      - mailingconfigadmin
+      - general
+      - multisite
+      - useradmin
+      - groupadmin
+      - permissionsadmin
+      - settingsadmin
+      - core
+      - historyadmin
+      - help
+      - formeditoradmin
+      - mailingadmin
+      - mailinglistadmin
+      - mailinguseradmin
+      - partialadmin
+      - referencesadmin
+
+  .actions:
+    login_module:           securityadmin
+    login_action:           login
+    
+    default_culture:  nl_NL
+    enabled_cultures: [ nl_NL, en_US ]
+    i18n: on
+    use_fallback:     false
+  
+    

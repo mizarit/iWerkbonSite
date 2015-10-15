@@ -1,0 +1,60 @@
+# default values
+all:
+  enable_soap_parameter: off
+  multisite:
+    cms:
+      site1: 
+        title:  plekjevrij.nl
+                
+        urls:
+          - http://plekjevrij.mizar-it.nl
+          - http://plekjevrij.nl
+          - http://www.plekjevrij.nl
+        url:  http://plekjevrij.nl
+          
+        active: true
+        
+  sms:
+    username: autoafspraak
+    password: e40d8259
+    url:      http://gateway.wireless-services.nl/sendsms
+    name:     PlekjeVrij
+     
+  facebook:
+    appid:      357145671030550
+    appsecret:  24c56c3f37c56a89699cc48111fd14b9
+    
+  payment:
+    ideal:
+      #IDEAL_AQUIRER:                 Rabobank
+      #IDEAL_CACHE_PATH:               false
+      #IDEAL_MERCHANT_ID:              '002043078'
+      #IDEAL_PRIVATE_CERTIFICATE_FILE: onlineafspraken.cer
+      #IDEAL_PRIVATE_KEY:              Hazerswoude71
+      #IDEAL_PRIVATE_KEY_FILE:         onlineafspraken.key
+      #IDEAL_RETURN_URL: 
+      #IDEAL_SECURE_PATH:              <?php echo sfConfig::get('sf_plugins_dir').'/pvPlugin/lib/util/payments/Providers/Ideal/ssl'; ?> 
+      #IDEAL_SUB_ID:                   0
+      #IDEAL_TEST_MODE:                false
+      IDEAL_AQUIRER:                  Simulator
+      IDEAL_CACHE_PATH:               false
+      IDEAL_MERCHANT_ID:              '123456789'
+      IDEAL_PRIVATE_CERTIFICATE_FILE: private.cer
+      IDEAL_PRIVATE_KEY:              Password
+      IDEAL_PRIVATE_KEY_FILE:         private.key
+      IDEAL_RETURN_URL: 
+      IDEAL_SECURE_PATH:              <?php echo sfConfig::get('sf_plugins_dir').'/pvPlugin/lib/util/payments/Providers/Ideal/ssl'; ?> 
+      IDEAL_SUB_ID:                   0
+      IDEAL_TEST_MODE:                true
+    paypal:
+      debug:      true
+      username:   paypal_1326818504_biz_api1.mizar-it.nl
+      password:   1326818532
+      signature: An5ns1Kso7MWUdW4ErQKJJJ4qi4-AM2n0AH57fkElnu.LQwoDwmr4iHm
+
+  soap:
+    enable_soap_parameter: on
+    ck_web_service_plugin:
+      wsdl: %SF_WEB_DIR%/apisoap.wsdl 
+      # the class that will be registered as handler for webservice requests
+      handler: apisoapHandler

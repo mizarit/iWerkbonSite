@@ -1,0 +1,21 @@
+autoload:
+  global_lib:
+    name:           global lib
+    path:           %SF_LIB_DIR%
+    recursive:      on
+    
+  app_module_lib:
+    name:           app module lib
+    path:           %SF_APP_DIR%/modules/*/lib
+    prefix:         2
+    recursive:      on
+    
+  plugins_module_lib:
+    name:           plugins module lib
+    path:           %SF_PLUGINS_DIR%/*/modules/*/lib
+    recursive:      true
+    
+  plugins_lib:
+    name:           plugins lib
+    path:           %SF_PLUGINS_DIR%/*/lib
+    recursive:      true

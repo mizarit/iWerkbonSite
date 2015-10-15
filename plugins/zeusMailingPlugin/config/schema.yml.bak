@@ -1,0 +1,61 @@
+propel:
+  #mailinguser:
+  #  _attributes:      { phpName: Mailinguser, package: plugins.zeusMailingPlugin.lib.model }
+  #  title:            varchar(255)
+  #  email:            longvarchar(255)
+  #  name:             varchar(255)
+
+  contact:
+    _attributes:      { phpName: Contact, package: plugins.pvPlugin.lib.model }
+    si:               varchar(2)
+    email:            varchar(255)
+    address:          varchar(255)
+    longitude:        varchar(8)
+    latitude:         varchar(8)
+    gender:           varchar(1)
+    dob:              date
+    hasmailing:       boolean
+    hastargetmail:    boolean
+    hastagletter:     boolean
+    optinmailing:     boolean
+    optintargetmail:  boolean
+    optintagletter:   boolean
+    status:           integer
+    send:             integer
+    opened:           integer
+    clicked:          integer
+    buyed:            integer
+    frequency:        integer
+    suspend:          timestamp
+    regio0:           boolean
+    regio1:           boolean
+    regio2:           boolean
+    source:           varchar(8)
+
+  mailinglist:
+    _attributes:      { phpName: Mailinglist, package: plugins.zeusMailingPlugin.lib.model }
+    title:            varchar(255)
+    email:            varchar(255)
+    defaulttemplate:  varchar(255)
+
+  subscription:
+    _attributes:      { phpName: Subscription, package: plugins.zeusMailingPlugin.lib.model }
+    contact_id:
+    mailinglist_id:
+
+  mailing:
+    _attributes:      { phpName: Mailing, package: plugins.zeusMailingPlugin.lib.model }
+    title:            varchar(255)
+    site:             varchar(255)
+    mailinglist:      varchar(255)
+    template:         varchar(32)
+    content:          longvarchar
+    status:           varchar(8)
+    date:             timestamp
+
+  mailing_subscription:
+    _attributes:      { phpName: MailingSubscription, package: plugins.zeusMailingPlugin.lib.model }
+    contact_id:
+    mailing_id:
+    date:             timestamp
+    status:           varchar(8)

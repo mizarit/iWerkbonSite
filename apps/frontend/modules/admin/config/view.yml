@@ -1,0 +1,42 @@
+customersSuccess:
+  javascripts:
+    - /js/customer.js
+    - /js/list.js
+    - /js/lightwindow/javascript/lightwindow.js
+    - /js/myui/myui.js
+    - /js/autocomplete.js
+  stylesheets:
+    - /js/lightwindow/css/lightwindow.css
+settingsSuccess:
+  javascripts:
+    - /js/settings.js
+    - /js/list.js
+    - /js/resource.js
+    - /js/colorpickerjs-1.0/yahoo.color.js
+    - /js/colorpickerjs-1.0/colorPicker.js
+    - /zeusCore/js/swfupload/fileprogress.js
+    - /zeusCore/js/swfupload/handlers.js
+    - /zeusCore/js/swfupload/swfupload.js
+  stylesheets:
+    - /js/colorpickerjs-1.0/colorPicker.css
+adminSuccess:
+  javascripts:
+    - /js/list.js
+    - /js/invoice.js
+    - /js/myui/myui.js
+workordersSuccess:
+  javascripts:
+    - /js/list.js
+    - /js/workorder.js
+    - /js/myui/myui.js
+    - /js/lightwindow/javascript/lightwindow.js
+  stylesheets:
+    - /js/lightwindow/css/lightwindow.css
+planboardSuccess:
+  javascripts:
+    - /js/myui/myui.js
+    - /js/list.js
+    - /js/Proto.TimePicker/Proto.TimePicker.js
+    - /js/autocomplete.js
+  stylesheets:
+    - /js/Proto.TimePicker/Proto.TimePicker.css

@@ -1,0 +1,16 @@
+# default values
+all:
+  enable_soap_parameter: off
+  multisite:
+    cms:
+      site1: 
+        title:  healthchallenge.nl
+                
+        urls:
+          - http://healthchallenge-site.mizar-it.nl
+          - http://healthchallenge.nl
+        url:  http://healthchallenge.nl
+          
+        active: true
+  domain: healthchallenge-site.dev.mizar-it.nl          
+  

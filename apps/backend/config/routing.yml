@@ -1,0 +1,32 @@
+# default rules
+homepage:
+  url:   /
+  param: { module: dashboardadmin, action: index }
+
+contactform:
+  url:   /formulier/contact
+  param: { module: form, action: index, f: contact }
+  
+joinform:
+  url:   /formulier/meedoen
+  param: { module: form, action: index, f: join }
+  
+signupform:
+  url:   /formulier/aanmelden
+  param: { module: form, action: index, f: signup }
+  
+genericform:
+  url:   /formulier/:f
+  param: { module: form, action: index }
+
+location:
+  url: /:sf_culture/locaties
+  param: { module: location, action: index }
+# generic rules
+# please, remove them by adding more specific rules
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

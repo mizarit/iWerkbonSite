@@ -1,0 +1,65 @@
+dev:
+  propel:
+    param:
+      classname:  DebugPDO
+
+test:
+  propel:
+    param:
+      classname:  DebugPDO
+
+all:
+  propel:
+    class:        sfPropelDatabase
+    param:
+      classname:  PropelPDO
+      dsn:        mysql:dbname=iwerkbon-site;host=localhost
+      username:   zeus4
+      password:   zeus4
+      encoding:   utf8
+      persistent: true
+      pooling:    true
+      
+  app:
+    class:          sfPropelDatabase
+    param:
+      classname:  PropelPDO
+      dsn:        mysql:dbname=iwerkbon;host=localhost
+      username:   zeus4
+      password:   zeus4
+      encoding:   utf8
+      persistent: true
+      pooling:    true
+      
+  support:
+    class:          sfPropelDatabase
+    param:
+      classname:  PropelPDO
+      dsn:        mysql:dbname=demo-support;host=localhost
+      username:   zeus-demo
+      password:   zeus-demo
+      encoding:   utf8
+      persistent: true
+      pooling:    true
+
+  mailing:
+    class:          sfPropelDatabase
+    param:
+      classname:  PropelPDO
+      dsn:        mysql:dbname=iwerkbon-site;host=localhost
+      username:   zeus4
+      password:   zeus4
+      encoding:   utf8
+      persistent: true
+      pooling:    true
+      
+  news:
+    class:          sfPropelDatabase
+    param:
+      classname:  PropelPDO
+      dsn:        mysql:dbname=iwerkbon-site;host=localhost
+      username:   zeus4
+      password:   zeus4
+      encoding:   utf8
+      persistent: true
+      pooling:    true

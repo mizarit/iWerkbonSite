@@ -1,0 +1,33 @@
+list:
+  title:     Nieuwsbrieven
+  name:      nieuwsbrief
+  labels:
+    create:  Nieuwe nieuwsbrief
+  adapter:   propel
+  view:      basic
+  model:     mailing
+  fields:   
+    title:
+      label: Titel
+    status:
+      label: Verzendstatus
+      type:  { helper: Mailing, method: mailing_list_status }
+    
+  ordering:  [ date ]
+  order:     date desc
+  
+edit:
+  fields:    
+    title:
+      label:  Onderwerp
+      type:   input
+    mailings:
+      type:  { helper: Mailing, method: mailing_edit }
+    content:
+      label:  Inhoud
+      type:   rich
+      width:  590
+      height: 490
+      relative_url: false
+
+    

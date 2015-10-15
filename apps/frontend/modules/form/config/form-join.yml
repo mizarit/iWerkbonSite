@@ -1,0 +1,12 @@
+title:      Inschrijfformulier
+namefield:  naam
+page:       214
+fields: 
+  naam:       
+    type: input
+    label: Naam *
+    required: true
+  email:
+    type: input
+    label: E-mail adres *
+    required: true 
