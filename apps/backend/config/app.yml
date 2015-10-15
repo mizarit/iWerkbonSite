@@ -1,0 +1,84 @@
+# default values
+all:
+  backendmodules_zeus_core:
+    list:
+      dashboardadmin:     Dashboard
+      menuadmin:          Navigatie
+      pageadmin:          Pagina's
+      partialadmin:       Teksten
+      companyadmin:       Bedrijven
+      workorderadmin:     Werkbonnen
+      mailingadmin:       Nieuwsbrieven
+      formadmin:          Formulieren
+      filesadmin:         Bestanden
+  sidebars:
+    sidebar1:
+      settings1:
+        label: Rechten
+        items:
+          users:
+            label:  Gebruikers
+            module: useradmin
+            icon:   users
+          groups:
+            label:  Groepen
+            module: groupadmin
+            icon:   groups
+          permissions:
+            label:  Rechten toewijzen
+            module: permissionsadmin
+            icon:   settings
+      settings2:
+        label: Overige instellingen
+        items:
+          settings:
+            label:  Instellingen
+            module: settingsadmin
+            icon:   settings
+    sidebar2:
+      forms1:
+        label: Formulieren
+        items:
+          forms1:
+            label:  Overzicht
+            module: formadmin
+            icon:   users
+          forms2:
+            label:  Bewerken
+            module: formeditoradmin
+            icon:   users
+    sidebar3:
+      mailings1:
+        label: Nieuwsbrieven
+        items:
+          mailingadmin:
+            label:  Nieuwsbrieven
+            module: mailingadmin
+            icon:   users
+          mailinguseradmin:
+            label:  Inschrijvingen
+            module: mailinguseradmin
+            icon:   users
+          mailinglistadmin:
+            label:  Nieuwsbrieflijsten
+            module: mailinglistadmin
+            icon:   users
+            
+            
+  actionlinks:
+    list:
+      @contactform:  Contact formulier
+      @signupform:   Aanmeldformulier bedrijven
+      @joinform:     Ik doe mee formulier
+ 
+  multisite:
+    cms:
+      site1: 
+        title:  iwerkbon.nl
+        dev:
+          url:    http://iwerkbon-cms.dev.mizar-it.nl
+        prod:
+          url:    http://cms.iwerkbon.nl
+        active: true
+      
+ 
