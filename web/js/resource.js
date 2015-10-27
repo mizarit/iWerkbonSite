@@ -4,11 +4,12 @@ var Resource = 'test';
 
 Event.observe(window, 'load', function() {
     var ResourceObject = Class.create(AdminBase, {
+        current_form: null,
         settings: {
             dataURL: resource_data_url
         },
         new: function() {
-            this.renderForm('Nieuwe resource toevoegen', $('resource-form'), {
+            this.renderForm('Nieuwe medewerker toevoegen', $('resource-form'), {
                 dataURL: this.settings.dataURL,
                 dataMap: {
                     title: 'resource-title',
@@ -35,13 +36,14 @@ Event.observe(window, 'load', function() {
                 password1: 'resource-password1',
                 password2: 'resource-password2',
                 'resource-oa': 'resource-oa',
-                active: 'resource-active'
+                active: 'resource-active',
+                cmethod: 'resource-method'
             };
 
             data.listView = resource_list;
             data.listMap = data.dataMap;
 
-            this.renderForm('Resource bewerken', $('resource-form'), data);
+            resource.current_form = this.renderForm('Medewerker bewerken', $('resource-form'), data);
             if (callback) {
                 buttons = $$('#dialog-content .form-buttons').first();
 
@@ -55,6 +57,7 @@ Event.observe(window, 'load', function() {
                 });
                 buttons.insert({top: button});
             }
+            Event.observe($('invite-btn'), 'click', resource.inviteResource);
         },
 
         remove: function(row, data) {
@@ -62,7 +65,7 @@ Event.observe(window, 'load', function() {
             var d_row = row;
             var d_data = data;
             var d_id = data[0];
-            this.renderConfirm('Resource verwijderen', 'Weet je zeker dat je deze resource wilt verwijderen?', {
+            this.renderConfirm('Medewerker verwijderen', 'Weet je zeker dat je deze medewerker wilt verwijderen?', {
                 onConfirm: function() {
                     new Ajax.Request(d_this.settings.dataURL, {
                         parameters: {
@@ -72,7 +75,7 @@ Event.observe(window, 'load', function() {
                         onSuccess: function(transport) {
                             switch(transport.responseJSON.status) {
                                 case 'failure':
-                                    d_this.renderAlert('Verwijderen van resource is niet gelukt. Probeer het later nog eens.');
+                                    d_this.renderAlert('Verwijderen van medewerker is niet gelukt. Probeer het later nog eens.');
                                     break;
                                 case 'success':
                                     // remove from local copy
@@ -94,6 +97,20 @@ Event.observe(window, 'load', function() {
                 onCancel: function() {
                 }
             });
+        },
+        inviteResource: function()
+        {
+            if($('resource-password1').value == '') {
+                resource.renderAlert('Het is alleen mogelijk een uitnodiging te sturen als je het wachtwoord voor deze gebruiker invoert.');
+                $('resource-password1').addClassName('error');
+            }
+            else if ($('resource-email').value=='') {
+                $('resource-email').addClassName('error');
+            }
+            else {
+                $('resource-method').value = 'invite';
+                resource.current_form.onSave();
+            }
         },
 
         view: function(row, data) {
@@ -138,6 +155,7 @@ Event.observe(window, 'load', function() {
                         var io = new Element('i');
                         io.addClassName('fa');
                         io.addClassName('fa-search');
+                        io.setAttribute('title', 'Werkbon bekijken');
                         eval("Event.observe(a, 'click', function() { resource.showWorkorder("+row.id+"); });");
                         a.insert(io);
                         td.insert(a);
@@ -148,23 +166,22 @@ Event.observe(window, 'load', function() {
                     });
                 }
                 else {
-                    $('resource-workorders').insert(new Element('p').update('Deze resource heeft geen werkbonnen'));
+                    $('resource-workorders').insert(new Element('p').update('Deze medewerker heeft geen werkbonnen'));
                 }
-
-                Event.observe($('resource-edit-link'), 'click', function() {
-                    resource.edit(d_row, d_data, resource.view);
-                });
             }
 
             data.onEdit = function() {
                 resource.edit(d_row, d_data, resource.view);
             }
-            resource.renderView('Resource', $('resource-view'), data);
+            resource.renderView('Medewerker', $('resource-view'), data);
+
+            Event.observe($('resource-edit-link'), 'click', function() {
+                resource.edit(d_row, d_data, resource.view);
+            });
         },
 
         addResource: function()
         {
-            alert('add resource');
         },
 
         showWorkorder: function(which)
@@ -185,8 +202,8 @@ Event.observe(window, 'load', function() {
         ],
         actions: {
             'edit': 'resource.edit',
-            'remove': 'resource.remove',
-            'view': 'resource.view'
+            'view': 'resource.view',
+            'remove': 'resource.remove'
             //'notes': 'resource.notes',
             //'settings': 'resource.settings',
             //'photos': 'resource.photos',

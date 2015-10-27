@@ -4,6 +4,9 @@ var Customer = 'test';
 
 Event.observe(window, 'load', function() {
     var CustomerObject = Class.create(AdminBase, {
+        current_customer: null,
+        current_row: null,
+        current_data: null,
         settings: {
             dataURL: customer_data_url
         },
@@ -24,9 +27,21 @@ Event.observe(window, 'load', function() {
                 email: 'customer-email',
                 phone: 'customer-phone'
             };
+            $$('.extra-field').each(function(s,i) {
+                data.dataMap['extra_'+s.id.substr(15)] = s.id
+            });
 
             data.listView = customer_list;
             data.listMap = data.dataMap;
+            data.customRender = function(cdata) {
+                if (cdata.extra_fields) {
+                    for (i in cdata.extra_fields) {
+                        if ($('customer-extra-'+i)) {
+                            $('customer-extra-' + i).value = cdata.extra_fields[i];
+                        }
+                    }
+                }
+            };
 
             this.renderForm('Klantgegevens bewerken', $('customer-form'), data);
             if (callback) {
@@ -85,6 +100,9 @@ Event.observe(window, 'load', function() {
 
         view: function(row, data) {
 
+            this.current_row = row;
+            this.current_data = data;
+
             var d_row = row;
             var d_data = data;
 
@@ -98,9 +116,22 @@ Event.observe(window, 'load', function() {
                 email: 'customer-view-email',
                 phone: 'customer-view-phone'
             };
+            $$('.extra-field').each(function(s,i) {
+                data.dataMap['extra_'+s.id.substr(18)] = s.id
+            });
+
+            this.current_customer = data[0];
 
             data.customRender = function(data)
             {
+                if (data.extra_fields) {
+                    for (i in data.extra_fields) {
+                        if ($('customer-view-extra-'+i)) {
+                            $('customer-view-extra-' + i).innerHTML = data.extra_fields[i];
+                        }
+                    }
+                }
+
                 $('customer-workorders').innerHTML = '';
                 if (data.workorders.length > 0) {
 
@@ -108,7 +139,7 @@ Event.observe(window, 'load', function() {
                     var thead = new Element('thead');
                     var tr = new Element('tr');
                     tr.insert(new Element('th').update('Datum').setStyle({width:'220px'}));
-                    tr.insert(new Element('th').update('Status').setStyle({width:'220px'}));
+                    tr.insert(new Element('th').update('Medewerker').setStyle({width:'220px'}));
                     tr.insert(new Element('th').update('Gereed'));
                     tr.insert(new Element('th').update('Acties').setStyle({width:'1.3em'}));
                     table.insert(tr);
@@ -116,8 +147,9 @@ Event.observe(window, 'load', function() {
 
                     $(data.workorders).each(function(row){
                         var tr = new Element('tr');
+                        eval("Event.observe(tr, 'click', function() { Customer.showWorkorder("+row.id+"); });");
                         tr.insert(new Element('td').update(row.date));
-                        tr.insert(new Element('td').update(row.status));
+                        tr.insert(new Element('td').update(row.resource));
                         tr.insert(new Element('td').update(row.ready?'Ja':'Nee'));
 
                         var td = new Element('td').setStyle({textAlign:'right'});
@@ -125,6 +157,7 @@ Event.observe(window, 'load', function() {
                         var io = new Element('i');
                         io.addClassName('fa');
                         io.addClassName('fa-search');
+                        io.setAttribute('title', 'Bekijken');
                         eval("Event.observe(a, 'click', function() { Customer.showWorkorder("+row.id+"); });");
                         a.insert(io);
                         td.insert(a);
@@ -153,6 +186,7 @@ Event.observe(window, 'load', function() {
 
                     $(data.invoices).each(function(row){
                         var tr = new Element('tr');
+                        eval("Event.observe(tr, 'click', function() { Customer.downloadInvoice("+row.id+"); });");
                         tr.insert(new Element('td').update(row.date));
                         tr.insert(new Element('td').update(row.status));
                         tr.insert(new Element('td').update(row.total));
@@ -162,6 +196,7 @@ Event.observe(window, 'load', function() {
                         var io = new Element('i');
                         io.addClassName('fa');
                         io.addClassName('fa-file-pdf-o');
+                        io.setAttribute('title', 'PDF downloaden');
                         eval("Event.observe(a, 'click', function() { Customer.downloadInvoice("+row.id+"); });");
                         a.insert(io);
                         td.insert(a);
@@ -189,6 +224,7 @@ Event.observe(window, 'load', function() {
 
                     $(data.notes).each(function(row){
                         var tr = new Element('tr');
+                        eval("Event.observe(tr, 'click', function(event) { Customer.editNote("+row.id+"); Event.stop(event); });");
                         tr.insert(new Element('td').update(row.date));
                         tr.insert(new Element('td').update(row.note));
 
@@ -197,7 +233,8 @@ Event.observe(window, 'load', function() {
                         var io = new Element('i');
                         io.addClassName('fa');
                         io.addClassName('fa-edit');
-                        eval("Event.observe(a, 'click', function() { Customer.editNote("+row.id+"); });");
+                        io.setAttribute('title', 'Bewerken');
+                        eval("Event.observe(a, 'click', function(event) { Customer.editNote("+row.id+"); Event.stop(event); });");
                         a.insert(io);
                         td.insert(a);
                         td.insert('&nbsp;');
@@ -206,7 +243,8 @@ Event.observe(window, 'load', function() {
                         var io = new Element('i');
                         io.addClassName('fa');
                         io.addClassName('fa-remove');
-                        eval("Event.observe(a, 'click', function() { Customer.removeNote("+row.id+"); });");
+                        io.setAttribute('title', 'Verwijderen');
+                        eval("Event.observe(a, 'click', function(event) { Customer.removeNote("+row.id+"); Event.stop(event); });");
                         a.insert(io);
                         td.insert(a);
                         td.insert('&nbsp;');
@@ -242,12 +280,16 @@ Event.observe(window, 'load', function() {
                         var remove = new Element('span');
                         remove.writeAttribute('remove-id', i);
                         remove.addClassName('fa fa-remove');
+                        remove.setAttribute('title', 'Verwijderen');
                         Event.observe(remove, 'click', Customer.removePhoto);
                         li.insert(remove);
                         ul.insert(li.insert(a.insert(img)));
                     });
 
                     myLightWindow = new lightwindow();
+                }
+                else {
+                    $('customer-photos').insert(new Element('p').update('Deze klant heeft geen foto\'s'));
                 }
 
                 Event.observe($('customer-edit-link'), 'click', function() {
@@ -256,6 +298,10 @@ Event.observe(window, 'load', function() {
 
                 Event.observe($('customer-add-note'), 'click', function() {
                     Customer.addNote();
+                });
+
+                Event.observe($('customer-add-workorder'), 'click', function() {
+                    Customer.addWorkorder();
                 });
             }
 
@@ -274,7 +320,7 @@ Event.observe(window, 'load', function() {
                         parameters: {
                             form: 'photo',
                             method: 'delete',
-                            customer_id: 5, // TODO
+                            customer_id: Customer.current_customer,
                             id: target.readAttribute('remove-id')
                         },
                         onSuccess: function(transport) {
@@ -329,6 +375,7 @@ Event.observe(window, 'load', function() {
                         },
                         onSuccess: function(transport) {
                             Customer.renderAlert('De notitie is verwijderd.');
+                            Customer.view(Customer.current_row, Customer.current_data);
                         }
                     });
                 },
@@ -338,11 +385,16 @@ Event.observe(window, 'load', function() {
             });
         },
 
+        addWorkorder: function()
+        {
+            window.location.href = '/admin/planboard?customer='+Customer.current_customer;
+        },
+
         addNote: function() {
             Customer.renderMicroedit('Notitie toevoegen', 'microedit-note', {
                 onSave: function()
                 {
-                    Customer.saveNote(true);
+                    Customer.saveNote(false);
                 }
             });
 
@@ -356,10 +408,10 @@ Event.observe(window, 'load', function() {
         editNote: function(which) {
             var current_row = which;
 
-            invoice.renderMicroedit('Notitie bewerken', 'microedit-note', {
+            Customer.renderMicroedit('Notitie bewerken', 'microedit-note', {
                 onSave: function()
                 {
-                    invoice.saveNote(current_row);
+                    Customer.saveNote(current_row);
                 },
                 dataURL: '/admin/customersData?form=note&method=load',
                 dataMap: {
@@ -368,26 +420,32 @@ Event.observe(window, 'load', function() {
                 },
                 0: current_row
             });
+
+            new MY.DatePicker({
+                input: 'note-date',
+                format: 'dd-MM-yyyy',
+                showWeek: true
+            });
         },
 
-        saveNote: function(isNew)
+        saveNote: function(current_row)
         {
             new Ajax.Request('/admin/customersData', {
                 parameters: {
                     form: 'note',
                     method: 'save',
-                    id: isNew ? false : current_row,
-                    customer_id: 5, // TODO
+                    id: current_row,
+                    customer_id: this.current_customer,
                     date: $('note-date').value,
                     text: $('note-text').value
                 },
                 onSuccess: function(transport) {
-
-                    console.log(transport.responseJSON.status);
                     switch(transport.responseJSON.status) {
                         case 'success':
                             Customer.renderAlert('De notitie is toegevoegd.');
                             $('modal-micro').removeClassName('active');
+
+                            Customer.view(Customer.current_row, Customer.current_data);
                             break;
 
                         case 'failure':
@@ -434,9 +492,9 @@ Event.observe(window, 'load', function() {
         'Telefoon'
     ],
         actions: {
-        'edit': 'Customer.edit',
-            'remove': 'Customer.remove',
-            'view': 'Customer.view'
+            'edit': 'Customer.edit',
+            'view': 'Customer.view',
+            'remove': 'Customer.remove'
         //'notes': 'Customer.notes',
         //'settings': 'Customer.settings',
         //'photos': 'Customer.photos',

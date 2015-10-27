@@ -29,7 +29,6 @@ window.GenericList = Class.create({
         now = Date.now() / 1000 | 0;
         if (!list_data || list_data_expires < (now - 3600)) { // 1 hours
             this.forcedReload();
-
         }
         else {
             data = list_data;
@@ -38,28 +37,41 @@ window.GenericList = Class.create({
         }
     },
 
+    showLoader: function()
+    {
+        $('loader').addClassName('active');
+
+    },
+    hideLoader: function()
+    {
+        $('loader').removeClassName('active');
+    },
+
     forcedReload: function()
     {
         var tthis = this;
         new Ajax.Request(this.data_url, {
             onSuccess: function (transport) {
-                console.log(transport);
                 tthis.data = transport.responseJSON.data;
                 now = Date.now() / 1000 | 0;
                 localStorage.setItem('list_data_'+tthis.element, Object.toJSON(tthis.data));
                 localStorage.setItem('expire_'+tthis.element, now);
 
                 if (transport.responseJSON.total > tthis.data.length) {
-                    tthis.loadRecursive(transport.responseJSON.limit, 0);
+                    tthis.showLoader();
+                    tthis.loadRecursive(transport.responseJSON.limit, 1);
                 }
-
-                tthis.renderList();
+                else {
+                    tthis.hideLoader();
+                    tthis.renderList();
+                }
             }
         });
     },
 
     loadRecursive: function (limit, run) {
         var tthis = this;
+        tthis.showLoader();
         new Ajax.Request(this.data_url, {
             parameters: {
                 offset: run * limit
@@ -78,6 +90,9 @@ window.GenericList = Class.create({
                 tthis.renderList();
                 if (tthis.data.length < transport.responseJSON.total) {
                     tthis.loadRecursive(transport.responseJSON.limit, run + 1);
+                }
+                else {
+                    tthis.hideLoader();
                 }
             }
         });
@@ -366,27 +381,35 @@ window.GenericList = Class.create({
                     switch(action) {
                         case 'edit':
                             io.addClassName('fa-edit');
+                            io.setAttribute('title', 'Bewerken');
                             break;
                         case 'remove':
                             io.addClassName('fa-remove');
+                            io.setAttribute('title', 'Verwijderen');
                             break;
                         case 'view':
                             io.addClassName('fa-search');
+                            io.setAttribute('title', 'Bekijken');
                             break;
                         case 'notes':
                             io.addClassName('fa-comment');
+                            io.setAttribute('title', 'Notities');
                             break;
                         case 'settings':
                             io.addClassName('fa-wrench');
+                            io.setAttribute('title', 'Instellingen');
                             break;
                         case 'photos':
                             io.addClassName('fa-photo');
+                            io.setAttribute('title', "Foto's");
                             break;
                         case 'documents':
                             io.addClassName('fa-file-pdf-o');
+                            io.setAttribute('title', 'PDF downloaden');
                             break;
                         case 'search':
                             io.addClassName('fa-search');
+                            io.setAttribute('title', 'Zoeken');
                             break;
                     }
                     eval("Event.observe(a, 'click', function(event) { "+this.config.actions[action]+"("+(offset + i)+", "+Object.toJSON(row)+"); Event.stop(event); });");
@@ -404,13 +427,12 @@ window.GenericList = Class.create({
     headerSort: function(event)
     {
         elem = event.target;
-        var sort_col = elem.id.substr(8+this.element.length);
+        var sort_col = parseInt(elem.id.substr(8+this.element.length)) + 1;
         this.sort_order = this.sort_order == 'asc' ? 'desc' : 'asc';
         var sort_order = this.sort_order;
-
         this.data.sort(function(a,b) {
-            v1 = a[sort_col];
-            v2 = b[sort_col];
+            v1 = a[sort_col].toLowerCase();
+            v2 = b[sort_col].toLowerCase();
             var test = [v1, v2];
             if(v1==v2) return 0; // they are the same
             test.sort();

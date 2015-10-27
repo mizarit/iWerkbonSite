@@ -131,6 +131,43 @@ div#logo {
     cursor: pointer;
     color: #fff;
 }
+
+
+#loader {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 110;
+    display: none;
+}
+#loader.active {
+    display: block;
+}
+#loader-overlay {
+    background: #eee;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+}
+#loader-overlay {
+    z-index: 110;
+}
+#loader-inner {
+    width: 300px;
+    border-radius: 10px;
+    border: #999 1px solid;
+    background: #fff;
+    padding: 20px;
+    margin: 0 auto;
+    margin-top: 10em;
+    text-align: center;
+    position: relative;
+    z-index: 120;
+}
 .fa {
     cursor: pointer;
 }
@@ -153,7 +190,7 @@ div#logo {
 }
 #content-inner.wide {
     width: 100%;
-    padding: 0 0.5em;
+    padding: 7px;
 }
 #admin-content {
     padding: 0.2em 0 3em 0;
@@ -361,8 +398,8 @@ button.button-3 {
 }
 #planboard #planning ul li ul li > div {
     background: #efefef;
-    border-left: #cecece 1px solid;
-    border-right: #cecece 1px solid;
+    border-left: #fff 1px solid;
+    border-right: #fff 1px solid;
     border-bottom: #fff 1px solid;
     width: 6em;
     font-size: 0.6em;
@@ -415,6 +452,10 @@ th {
     cursor: n-resize;
     color: #fff;
 }
+#modal th,
+#modal-micro th {
+    color: #1a1a1a;
+}
 tr {
     border-bottom: #cecece 1px solid;
 }
@@ -463,6 +504,30 @@ tr:hover td {
     cursor: default;
 }
 
+.pager .divider,
+.pager .divider:hover {
+    background: none;
+    cursor: default;
+    width: 1em;
+}
+
+.planboard-pager li {
+    top: 0.5em;
+    position: relative;
+}
+
+.pager .planboard-date,
+.pager .planboard-date:hover {
+    background: none;
+    top: 0;
+    padding: 0 0 0 0;
+}
+
+.pager .planboard-date .my-datepicker-select-button {
+    position: relative;
+    left: -1.6em;
+    top: 0.1em;
+}
 .export {
     margin: 0.2em 0;
     padding: 0;
@@ -489,6 +554,19 @@ tr:hover td {
     position: relative;
     left: -1.5em;
 }
+
+.currency {
+    padding-left: 1.5em;
+    width: 5em;
+}
+.rm-currency {
+    color: #666;
+    position: relative;
+    left : -6.3em;
+    top: 0.1em;
+    /*left: -1.5em;*/
+}
+
 
 .image-remove {
     position: absolute;
@@ -684,4 +762,70 @@ tr:hover td {
 }
 .results-div ul li:hover {
     background: #f0f0f0;
+}
+
+#filters {
+    position: relative;
+}
+#filter-list-types {
+    position: absolute;
+    right: 20px;
+    top: 0;
+}
+#dropzone {
+    display: none;
+}
+
+.fa-remove {
+    color: #c00;
+}
+
+td .fa-search,
+td .fa-edit {
+    color: #666;
+}
+
+#workorder-view-signature img {
+    width: 5em;
+}
+
+#resources ul li ul li {
+    cursor: pointer;
+}
+#resources ul li ul li.active {
+    background: #efefef !important;
+    font-weight: bold;
+}
+
+.workorder,
+#planning,
+#planning li,
+#resources,
+#resources li {
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */
+}
+
+.workorder {
+    cursor: pointer;
+}
+
+.color {
+    background: #efefef;
+    float: left;
+    width: 16px;
+    height: 16px;
+    margin: 0 4px 8px 0;
+    border: transparent 2px solid;
+    cursor: pointer;
+}
+
+.active-color {
+    border: #666 2px solid;
+}
+
+.active-marker {
+    color: #00b4ff;
 }

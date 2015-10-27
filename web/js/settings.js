@@ -29,6 +29,18 @@ Event.observe(window, 'load', function() {
             this.selectPanel('resources');
         },
 
+        checklists: function () {
+            this.selectPanel('checklists');
+        },
+
+        fields: function () {
+            this.selectPanel('fields');
+        },
+
+        app: function () {
+            this.selectPanel('app');
+        },
+
         login: function () {
             this.selectPanel('login');
         },
@@ -60,6 +72,19 @@ Event.observe(window, 'load', function() {
                     this.setButtons([
                     ]);
                     break;
+                case 'checklists':
+                this.setButtons([
+                ]);
+                break;
+                case 'fields':
+                    this.setButtons([
+                    ]);
+                    break;
+                case 'app':
+                    this.setButtons([
+                        {caption:'Opslaan', callback: Settings.saveApp, type: 'button-4'}
+                    ]);
+                    break;
                 case 'login':
                     this.setButtons([
                         {caption:'Opslaan', callback: Settings.saveLogin, type: 'button-4'}
@@ -73,9 +98,10 @@ Event.observe(window, 'load', function() {
             Settings.renderMicroedit('Product toevoegen', 'microedit-product', {
                 onSave: function()
                 {
-                    Settings.saveProduct(true);
+                    Settings.saveProduct(false);
                 }
             });
+            currency.initField($('product-price'));
         },
 
         editProduct: function(event)
@@ -97,8 +123,14 @@ Event.observe(window, 'load', function() {
                     price: 'product-price',
                     type: 'product-type'
                 },
+                customRender: function(response)
+                {
+                    $('product-price').value = accounting.formatMoney($('product-price').value, "", 2, ".", ",");
+                },
                 0: product_id
             });
+
+            currency.initField($('product-price'));
 
             if(!event.id) {
                 Event.stop(event);
@@ -170,17 +202,20 @@ Event.observe(window, 'load', function() {
                 var i0 = new Element('i');
                 i0.addClassName('fa');
                 i0.addClassName('fa-sort');
+                i0.setAttribute('title', 'Sorteren');
                 span.insert(i0);
                 span.insert('&nbsp;')
 
                 var i1 = new Element('i');
                 i1.addClassName('fa');
                 i1.addClassName('fa-edit');
+                i1.setAttribute('title', 'Bewerken');
                 span.insert(i1);
                 span.insert('&nbsp;')
                 var i2 = new Element('i');
                 i2.addClassName('fa');
                 i2.addClassName('fa-remove');
+                i2.setAttribute('title', 'Verwijderen');
                 span.insert(i2);
                 li.insert(span);
 
@@ -198,14 +233,14 @@ Event.observe(window, 'load', function() {
             });
         },
 
-        saveProduct: function(isNew)
+        saveProduct: function(product_id)
         {
-
+            var isEdit = product_id;
             new Ajax.Request('/admin/settingsData', {
                 parameters: {
                     form: 'products',
                     method: 'save',
-                    id: isNew ? false : product_id,
+                    id: product_id,
                     description: $('product-description').value,
                     price: $('product-price').value,
                     type: $('product-type').value
@@ -214,7 +249,7 @@ Event.observe(window, 'load', function() {
 
                     switch(transport.responseJSON.status) {
                         case 'success':
-                            Settings.renderAlert('Het product is toegevoegd.');
+                            Settings.renderAlert(isEdit?'De wijzigingen zijn opgeslagen.':'Het product is toegevoegd.');
                             $('modal-micro').removeClassName('active');
                             Settings.renderProducts(transport.responseJSON.products);
                             break;
@@ -264,6 +299,17 @@ Event.observe(window, 'load', function() {
             });
         },
 
+        saveApp: function()
+        {
+            Settings.saveForm(['app-setting-1', 'app-setting-2', 'app-setting-3', 'app-setting-4', 'app-setting-5', 'app-setting-6', 'app-setting-7', 'app-setting-8', 'app-setting-9', 'app-setting-10', 'app-setting-11', 'app-setting-12'], {
+                dataURL: Settings.settings.dataURL,
+                form: 'app',
+                onSuccess: function (response) {
+                    Settings.renderAlert(response.message);
+                }
+            });
+        },
+
         saveProductOrder: function()
         {
             post = Sortable.serialize('sortable-tree', {
@@ -294,7 +340,6 @@ Event.observe(window, 'load', function() {
                 dataURL: Settings.settings.dataURL,
                 form: 'login',
                 onSuccess: function (response) {
-                    console.log(response);
                     Settings.renderAlert(response.message);
                 }
             });

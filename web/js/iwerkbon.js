@@ -5,7 +5,7 @@ if(max_modal_width > 1000) max_modal_width = 1000;
 var max_modal_height = (document.viewport.getDimensions().height-100);
 Event.observe(window, 'load', function() {
     of1 = $('content').cumulativeOffset();
-    of2 = $('buttons').cumulativeOffset();
+    of2 = $('buttons') ? $('buttons').cumulativeOffset() : 0;
     diff = of2[1]-of1[1];
 
     if ($('subnav')) {
@@ -15,12 +15,16 @@ Event.observe(window, 'load', function() {
 
         $('content-inner').setStyle({height: diff + 'px', width: width + 'px'});
     }
+    else if($('content-inner')) {
+        $('content-inner').setStyle({height: diff + 'px'});
+    }
     $('modal').setStyle({height:document.viewport.getDimensions().height+'px'});
     $('modal-inner').setStyle({
         height:max_modal_height+'px',
         width:max_modal_width+'px'
     });
     $('overlay').setStyle({height:document.viewport.getDimensions().height+'px'});
+    $('loader-overlay').setStyle({height:document.viewport.getDimensions().height+'px'});
 
     new Draggable('modal-inner', { revert: false, handle: 'modal-title' });
 

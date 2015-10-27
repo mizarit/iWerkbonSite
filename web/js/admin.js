@@ -104,18 +104,14 @@ var AdminBase = Class.create({
         $('dialog-content').insert(form2);
         form2.show();
 
-        $$('#dialog-content .inplace-editor').each(function(s, i) {
-            new Ajax.InPlaceEditor(s.id, '/admin/textEditor', {
-                cancelText: 'Annuleren',
-                okText: 'Opslaan'
-            });
-        });
+        $('modal').addClassName('active');
 
         $$('#dialog-content > div > div').first().setStyle({height:(h-100)+'px', overflow:'auto'});
 
         $$('.error').each(function(s,i){
             $(s).removeClassName('error');
         });
+
         if (data.dataURL) {
             var d_data = data;
             new Ajax.Request(data.dataURL, {
@@ -124,7 +120,7 @@ var AdminBase = Class.create({
                 },
                 onSuccess: function(transport) {
                     $H(d_data.dataMap).each(function(field) {
-                        if ($(field.value)) {
+                        if ($(field.value) && transport.responseJSON[field.key]) {
                             switch ($(field.value).type) {
                                 case 'checkbox':
                                     if (transport.responseJSON[field.key]) {
@@ -136,7 +132,11 @@ var AdminBase = Class.create({
                                     break;
                             }
                         }
-
+                        else {
+                            if ($(field.value).type=='text') {
+                                $(field.value).value = '';
+                            }
+                        }
                     });
                     if(d_data.customRender) {
                         d_data.customRender(transport.responseJSON);
@@ -145,13 +145,20 @@ var AdminBase = Class.create({
             });
         }
 
+
         var d_data = data;
         var d_this = this;
-
         data.onSave = function() {
             var postData = {};
             $H(d_data.dataMap).each(function(field) {
-                value = $(field.value).value;
+                switch($(field.value).type) {
+                    case 'checkbox':
+                        value = $(field.value).checked;
+                        break;
+                    default:
+                        value = $(field.value).value;
+                        break;
+                }
                 postData[field.key] = value;
             });
             postData.method = 'save';
@@ -161,23 +168,17 @@ var AdminBase = Class.create({
                 onSuccess: function(transport) {
                     switch(transport.responseJSON.status) {
                         case 'success':
-                            // set new item in storage and reload list
-                            /*c = 0;
-                            for ( i in d_data.listMap) {
-                                c++;
-                                d_data.listView.data[d_data.row][c] = postData[i];
+                            if (d_data.listView) {
+                                if (localStorage.getItem('list_data_' + d_data.listView.element)) {
+                                    localStorage.removeItem('list_data_' + d_data.listView.element);
+                                }
+                                d_data.listView.forcedReload();
+                                d_data.listView.renderList();
                             }
-                            d_data.listView.renderList();
-
-                            localStorage.setItem('list_data_'+d_data.listView.element, Object.toJSON(d_data.listView.data));
-                            */
-
-                            if (localStorage.getItem('list_data_'+d_data.listView.element)) {
-                                localStorage.removeItem('list_data_' + d_data.listView.element);
-                            }
-                            d_data.listView.forcedReload();
-                            d_data.listView.renderList();
                             $('modal').removeClassName('active');
+                            if(d_data.customSave) {
+                                d_data.customSave(transport.responseJSON);
+                            }
                             break;
 
                         case 'failure':
@@ -195,8 +196,6 @@ var AdminBase = Class.create({
                 }
             });
         }
-
-        $('modal').addClassName('active');
 
         elem = $$('#dialog-content .button-1').first();
         if (elem) {
@@ -217,6 +216,15 @@ var AdminBase = Class.create({
                 });
             }
         }
+
+        $$('#dialog-content .inplace-editor').each(function(s, i) {
+            new Ajax.InPlaceEditor(s.id, '/admin/textEditor', {
+                cancelText: 'Annuleren',
+                okText: 'Opslaan'
+            });
+        });
+
+        return data;
     },
 
     renderView: function(title, view, data)
@@ -295,28 +303,28 @@ var AdminBase = Class.create({
         l = (document.viewport.getDimensions().width - 50 - w) / 2;
         y = (max_modal_height - h ) / 2;
 
-        $('modal-inner').setStyle({
+        $('modal-inner-micro').setStyle({
 
             height:h+'px',
             width:w+'px',
             left: l+'px',
             top: y+'px'
         });
-        $('dialog-title').innerHTML = 'Melding';
+        $('dialog-title-micro').innerHTML = 'Melding';
 
-        $('dialog-content').innerHTML = '';
+        $('dialog-content-micro').innerHTML = '';
         form = $('confirm-form').clone(true);
-        $('dialog-content').insert(form);
+        $('dialog-content-micro').insert(form);
         $('confirm-caption').innerHTML = title;
 
-        elem = $$('#dialog-content .button-1').first();
+        elem = $$('#dialog-content-micro .button-1').first();
         elem.hide();
-        elem = $$('#dialog-content .button-2').first();
-        Event.observe(elem, 'click', function() { $('modal').removeClassName('active'); });
+        elem = $$('#dialog-content-micro .button-2').first();
+        Event.observe(elem, 'click', function() { $('modal-micro').removeClassName('active'); });
 
 
         form.show();
-        $('modal').addClassName('active');
+        $('modal-micro').addClassName('active');
     },
 
     renderConfirm: function(title, caption, data)
@@ -327,23 +335,22 @@ var AdminBase = Class.create({
         l = (document.viewport.getDimensions().width - 50 - w) / 2;
         y = (max_modal_height - h ) / 2;
 
-        $('modal-inner').setStyle({
-
+        $('modal-inner-micro').setStyle({
             height:h+'px',
             width:w+'px',
             left: l+'px',
             top: y+'px'
         });
-        $('dialog-title').innerHTML = title;
+        $('dialog-title-micro').innerHTML = title;
         $('confirm-caption').innerHTML = caption;
-        $('dialog-content').innerHTML = '';
+        $('dialog-content-micro').innerHTML = '';
         form = $('confirm-form').clone(true);
-        $('dialog-content').insert(form);
+        $('dialog-content-micro').insert(form);
 
-        elem = $$('#dialog-content .button-1').first();
+        elem = $$('#dialog-content-micro .button-1').first();
         if (elem) {
             if (data.onCancel) {
-                Event.observe(elem, 'click', function() { $('modal').removeClassName('active'); });
+                Event.observe(elem, 'click', function() { $('modal-micro').removeClassName('active'); });
                 Event.observe(elem, 'click', data.onCancel);
 
             }
@@ -352,10 +359,10 @@ var AdminBase = Class.create({
             }
         }
 
-        elem = $$('#dialog-content .button-2').first();
+        elem = $$('#dialog-content-micro .button-2').first();
         if (elem) {
             if (data.onConfirm) {
-                Event.observe(elem, 'click', function() { $('modal').removeClassName('active'); });
+                Event.observe(elem, 'click', function() { $('modal-micro').removeClassName('active'); });
                 Event.observe(elem, 'click', data.onConfirm);
             }
             else {
@@ -364,7 +371,7 @@ var AdminBase = Class.create({
         }
         form.show();
 
-        $('modal').addClassName('active');
+        $('modal-micro').addClassName('active');
     },
 
     setButtons: function(buttons)
@@ -390,7 +397,7 @@ var AdminBase = Class.create({
         var current_fields = fields;
         var post = {};
         $(fields).each(function(s) {
-            v = $(s).value;
+            v = $(s).type == 'checkbox' ? $(s).checked : $(s).value;
             post[s] = v;
         });
         post.form = config.form;

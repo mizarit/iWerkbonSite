@@ -2,24 +2,37 @@ window.AutoComplete = Class.create({
     data_url: null,
     field: '',
     results: null,
+    onComplete: null,
     cc: 0,
     data: null,
     search_value: '',
     initialize: function (field, config) {
         this.data_url = config.data_url;
         this.field = field;
+        if(config.onComplete) {
+            this.onComplete = config.onComplete;
+        }
+
+        // first of all, check if the field is not already an autocomplete
+        //console.log(field.parentNode);
+        if ($(field.parentNode).select('.fa-search').length == 0) {
 
 
-        var container_div = new Element('div');
-        container_div.setStyle({float: 'left'});
-        $(field.parentNode).insert(container_div);
-        container_div.insert(field);
+            var container_div = new Element('div');
+            container_div.setStyle({float: 'left'});
+            $(field.parentNode).insert(container_div);
+            container_div.insert(field);
 
-        var search_icon = new Element('i');
-        search_icon.addClassName('fa');
-        search_icon.addClassName('fa-search');
-        search_icon.addClassName('rm-search');
-        container_div.insert(search_icon);
+            var search_icon = new Element('i');
+            search_icon.addClassName('fa');
+            search_icon.addClassName('fa-search');
+            search_icon.addClassName('rm-search');
+            container_div.insert(search_icon);
+        }
+        else {
+            container_div = $(field.parentNode);
+        }
+
 
         Event.observe($(field), 'keyup', this.search.bind(this));
         Event.observe($(field), 'blur', this.remove.bind(this));
@@ -85,6 +98,9 @@ window.AutoComplete = Class.create({
             if ($(i)) {
                 $(i).value = d.data[i];
             }
+        }
+        if (this.onComplete) {
+            this.onComplete();
         }
     }
 });

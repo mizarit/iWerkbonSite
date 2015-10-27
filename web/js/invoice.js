@@ -4,6 +4,9 @@ var Invoice = 'test';
 
 Event.observe(window, 'load', function() {
     var InvoiceObject = Class.create(AdminBase, {
+        current_invoice: null,
+        current_row: null,
+        current_data: null,
         settings: {
             dataURL: invoice_data_url
         },
@@ -14,6 +17,8 @@ Event.observe(window, 'load', function() {
         },
 
         edit: function(row, data) {
+            invoice.current_invoice = data[0];
+
             data.row = row;
             data.dataURL = this.settings.dataURL;
             data.dataMap = {
@@ -41,6 +46,7 @@ Event.observe(window, 'load', function() {
 
                     $(data.payments).each(function(row){
                         var tr = new Element('tr');
+                        eval("Event.observe(tr, 'click', function(event) { invoice.editPayment("+row.id+"); Event.stop(event); });");
                         tr.insert(new Element('td').update(row.date));
                         tr.insert(new Element('td').update(row.total));
                         tr.insert(new Element('td').update(row.paymethod));
@@ -50,7 +56,7 @@ Event.observe(window, 'load', function() {
                         var io = new Element('i');
                         io.addClassName('fa');
                         io.addClassName('fa-edit');
-                        eval("Event.observe(a, 'click', function() { invoice.editPayment("+row.id+"); });");
+                        eval("Event.observe(a, 'click', function(event) { invoice.editPayment("+row.id+"); Event.stop(event); });");
                         a.insert(io);
                         td.insert(a);
                         td.insert('&nbsp;');
@@ -59,7 +65,7 @@ Event.observe(window, 'load', function() {
                         var io = new Element('i');
                         io.addClassName('fa');
                         io.addClassName('fa-remove');
-                        eval("Event.observe(a, 'click', function() { invoice.removePayment("+row.id+"); });");
+                        eval("Event.observe(a, 'click', function(event) { invoice.removePayment("+row.id+"); Event.stop(event); });");
                         a.insert(io);
                         td.insert(a);
                         td.insert('&nbsp;');
@@ -122,8 +128,13 @@ Event.observe(window, 'load', function() {
 
         view: function(row, data) {
 
+            this.current_row = row;
+            this.current_data = data;
+
             var d_row = row;
             var d_data = data;
+
+            invoice.current_invoice = d_data[0];
 
             data.row = row;
             data.dataURL = this.settings.dataURL;
@@ -185,6 +196,7 @@ Event.observe(window, 'load', function() {
 
                     $(data.payments).each(function(row){
                         var tr = new Element('tr');
+                        eval("Event.observe(tr, 'click', function(event) { invoice.editPayment("+row.id+"); Event.stop(event); });");
                         tr.insert(new Element('td').update(row.date));
                         tr.insert(new Element('td').update(row.total));
                         tr.insert(new Element('td').update(row.paymethod));
@@ -194,7 +206,8 @@ Event.observe(window, 'load', function() {
                         var io = new Element('i');
                         io.addClassName('fa');
                         io.addClassName('fa-edit');
-                        eval("Event.observe(a, 'click', function() { invoice.editPayment("+row.id+"); });");
+                        io.setAttribute('title', 'Bewerken');
+                        eval("Event.observe(a, 'click', function(event) { invoice.editPayment("+row.id+"); Event.stop(event);});");
                         a.insert(io);
                         td.insert(a);
                         td.insert('&nbsp;');
@@ -203,7 +216,8 @@ Event.observe(window, 'load', function() {
                         var io = new Element('i');
                         io.addClassName('fa');
                         io.addClassName('fa-remove');
-                        eval("Event.observe(a, 'click', function() { invoice.removePayment("+row.id+"); });");
+                        io.setAttribute('title', 'Verwijderen');
+                        eval("Event.observe(a, 'click', function(event) { invoice.removePayment("+row.id+"); Event.stop(event);});");
                         a.insert(io);
                         td.insert(a);
                         td.insert('&nbsp;');
@@ -258,7 +272,7 @@ Event.observe(window, 'load', function() {
             invoice.renderMicroedit('Betaling toevoegen', 'microedit-payment', {
                 onSave: function()
                 {
-                    invoice.savePayment(true);
+                    invoice.savePayment(false);
                 }
             });
 
@@ -267,6 +281,7 @@ Event.observe(window, 'load', function() {
                 format: 'dd-MM-yyyy',
                 showWeek: true
             });
+            currency.initField($('payment-total'));
         },
 
         removePayment: function(which) {
@@ -281,7 +296,7 @@ Event.observe(window, 'load', function() {
                         },
                         onSuccess: function(transport) {
                             invoice.renderAlert('De betaling is verwijderd.');
-                            //Settings.renderProducts(transport.responseJSON.products);
+                            invoice.view(invoice.current_row, invoice.current_data);
                         }
                     });
                 },
@@ -297,13 +312,17 @@ Event.observe(window, 'load', function() {
             invoice.renderMicroedit('Betaling bewerken', 'microedit-payment', {
                 onSave: function()
                 {
-                    invoice.savePayment(product_id);
+                    invoice.savePayment(current_row);
                 },
                 dataURL: '/admin/adminData?form=payment&method=load',
                 dataMap: {
                     date: 'payment-date',
                     total: 'payment-total',
                     paymethod: 'payment-paymethod'
+                },
+                customRender: function(response)
+                {
+                    $('payment-total').value = accounting.formatMoney($('payment-total').value, "", 2, ".", ",");
                 },
                 0: current_row
             });
@@ -313,27 +332,26 @@ Event.observe(window, 'load', function() {
                 format: 'dd-MM-yyyy',
                 showWeek: true
             });
+            currency.initField($('payment-total'));
         },
 
-        savePayment: function(isNew)
+        savePayment: function(current_row)
         {
             new Ajax.Request('/admin/adminData', {
                 parameters: {
                     form: 'payment',
                     method: 'save',
-                    id: isNew ? false : current_row,
-                    invoice_id: 1, // TODO
+                    id: current_row,
+                    invoice_id: invoice.current_invoice,
                     date: $('payment-date').value,
                     total: $('payment-total').value,
                     paymethod: $('payment-paymethod').value
                 },
                 onSuccess: function(transport) {
-
                     switch(transport.responseJSON.status) {
                         case 'success':
-                            invoice.renderAlert('De betaling is toegevoegd.');
-                            $('modal-micro').removeClassName('active');
-                            //Settings.renderProducts(transport.responseJSON.products);
+                            invoice.renderAlert(current_row?'De betaling is gewijzigd.':'De betaling is toegevoegd.');
+                            invoice.view(invoice.current_row, invoice.current_data);
                             break;
 
                         case 'failure':
