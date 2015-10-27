@@ -3,7 +3,6 @@
   var settings_ajax_url = '<?php echo url_for('admin/settingsAjax'); ?>';
 </script>
 <div id="admin-content">
-
   <div class="settings-panel" id="settings-invoices" style="display: none;">
 <form action="#" method="post">
   <fieldset>
@@ -259,7 +258,7 @@
       </div>
       <div class="form-row" id="product-price-container">
         <div class="form-label"><label for="product-price">Prijs</label></div>
-        € <input type="text" name="product-price" id="product-price" style="width:6em;">
+        <input type="text" name="product-price" id="product-price" class="currency">
       </div>
     </div>
     <div class="form-buttons">
@@ -287,7 +286,7 @@
   <!-- detail view -->
   <div id="resource-view" class="detail-view" style="display:none;">
     <div style="margin: 10px;overflow:auto;">
-      <h2>Resource gegevens <a href="#" id="resource-edit-link"><span class="fa fa-edit"></span></a></h2>
+      <h2>Medewerker gegevens <a href="#" title="Medewerker gegevens bewerken" id="resource-edit-link"><span class="fa fa-edit"></span></a></h2>
       <table>
         <tr>
           <td style="width: 220px;font-weight: bold;">Naam</td>
@@ -312,7 +311,7 @@
 
       <?php include_component('admin', 'text', array('key' => 'settings-resources-edit-title1', 'text' => 'Algemene gegevens', 'tag' => 'h2')); ?>
       <?php include_component('admin', 'text', array('key' => 'settings-resources-edit-help1', 'text' => '...')); ?>
-
+      <input type="hidden" name="resource-method" id="resource-method" value="save">
       <div class="form-row">
         <div class="form-label"><label for="resource-title">Naam</label></div>
         <input type="text" name="resource-title" id="resource-title">
@@ -366,13 +365,167 @@
         ?>
         </select>
       </div>
+    </div>
+    <div class="form-buttons">
+      <button class="button-1">Sluiten</button>
+      <button class="button-4" id="invite-btn" class="disabled" title="Stuur een uitnodiging met inloggegevens.">Opslaan en uitnodiging sturen</button>
+      <button class="button-2">Opslaan</button>
+    </div>
+  </div>
 
+
+  <div class="settings-panel" id="settings-app" style="display: none;">
+    <form action="#" method="post">
+      <fieldset>
+        <legend>Settings form</legend>
+        <?php include_component('admin', 'text', array('key' => 'settings-app-help-title1', 'text' => 'App functionaliteiten', 'tag' => 'h1')); ?>
+        <?php include_component('admin', 'text', array('key' => 'settings-app-help1', 'text' => '...')); ?>
+      </fieldset>
+
+      <div class="form-row">
+        <input <?php if($company->getSetting('app-setting-1')==1) echo ' checked="checked"'; ?> type="checkbox" class="checkbox" name="app-setting-1" id="app-setting-1"><label for="app-setting-1">De medewerker mag de klantgegevens aanpassen</label><br>
+        <input <?php if($company->getSetting('app-setting-2')==1) echo ' checked="checked"'; ?> type="checkbox" class="checkbox" name="app-setting-2" id="app-setting-2"><label for="app-setting-2">De medewerker mag de orderregels aanpassen</label><br>
+        <input <?php if($company->getSetting('app-setting-3')==1) echo ' checked="checked"'; ?> type="checkbox" class="checkbox" name="app-setting-3" id="app-setting-3"><label for="app-setting-3">De medewerker mag foto's toevoegen</label><br>
+        <input <?php if($company->getSetting('app-setting-4')==1) echo ' checked="checked"'; ?> type="checkbox" class="checkbox" name="app-setting-4" id="app-setting-4"><label for="app-setting-4">De medewerker mag de klantgeschiedenis inzien</label><br>
+        <input <?php if($company->getSetting('app-setting-5')==1) echo ' checked="checked"'; ?> type="checkbox" class="checkbox" name="app-setting-5" id="app-setting-5"><label for="app-setting-5">De medewerker mag de start- en eindtijd aanpassen</label><br>
+        <input <?php if($company->getSetting('app-setting-6')==1) echo ' checked="checked"'; ?> type="checkbox" class="checkbox" name="app-setting-6" id="app-setting-6"><label for="app-setting-6">De medewerker mag een werkbon handmatig aanmaken</label><br>
+        <input <?php if($company->getSetting('app-setting-7')==1) echo ' checked="checked"'; ?> type="checkbox" class="checkbox" name="app-setting-7" id="app-setting-7"><label for="app-setting-7">De medewerker mag werkbonnen verwijderen</label><br>
+        <input <?php if($company->getSetting('app-setting-8')==1) echo ' checked="checked"'; ?> type="checkbox" class="checkbox" name="app-setting-8" id="app-setting-8"><label for="app-setting-8">De gewerkte tijd, bepaald door de start- en eindtijd, wordt doorberekend op de werkbon en factuur</label><br>
+        <input <?php if($company->getSetting('app-setting-9')==1) echo ' checked="checked"'; ?> type="checkbox" class="checkbox" name="app-setting-9" id="app-setting-9"><label for="app-setting-9">De klant moet de werkbon ondertekenen</label><br>
+        <input <?php if($company->getSetting('app-setting-10')==1) echo ' checked="checked"'; ?> type="checkbox" class="checkbox" name="app-setting-10" id="app-setting-10"><label for="app-setting-10">De klant mag de werkzaamheden direct afrekenen</label><br>
+        <input <?php if($company->getSetting('app-setting-11')==1) echo ' checked="checked"'; ?> type="checkbox" class="checkbox" name="app-setting-11" id="app-setting-11"><label for="app-setting-11">De medewerker moet aangeven wanneer de werkzaamheden starten en eindigen.</label><br>
+        <input <?php if($company->getSetting('app-setting-12')==1) echo ' checked="checked"'; ?> type="checkbox" class="checkbox" name="app-setting-11" id="app-setting-12"><label for="app-setting-12">De werkbon toont eventuele controlelijsten</label><br>
+      </div>
+    </form>
+  </div>
+
+
+  <div class="settings-panel" id="settings-checklists" style="display: none;">
+    <form action="#" method="post">
+      <fieldset>
+        <legend>Settings form</legend>
+        <?php include_component('admin', 'text', array('key' => 'settings-checklists-help-title1', 'text' => 'Controlelijsten', 'tag' => 'h1', 'extra' => ' <a href="#" id="checklist-add-link"><span class="fa fa-edit" title="Controlelijst toevoegen"></span></a>')); ?>
+        <?php include_component('admin', 'text', array('key' => 'settings-checklists-help1', 'text' => '...')); ?>
+
+        <div id="checklist-list"></div>
+        <script type="text/javascript">
+          var checklist_data_url = '<?php echo url_for('admin/checklistData'); ?>';
+          var checklist_ajax_url = '<?php echo url_for('admin/checklistAjax'); ?>';
+        </script>
+      </fieldset>
+    </form>
+  </div>
+
+  <!-- detail view -->
+  <div id="checklist-view" class="detail-view" style="display:none;">
+    <div style="margin: 10px;overflow:auto;">
+      <h2>Controlelijst informatie <a href="#" title="Controlelijst bewerken" id="checklist-edit-link"><span class="fa fa-edit"></span></a></h2>
+      <table>
+        <tr>
+          <td style="width: 220px;font-weight: bold;">Naam</td>
+          <td id="checklist-view-title"></td>
+        </tr>
+      </table>
+      <div id="checklist-view-checklist"></div>
+    </div>
+    <div class="form-buttons">
+      <button class="button-1">Sluiten</button>
+      <button class="button-2">Bewerken</button>
+    </div>
+  </div>
+  <!-- edit view -->
+  <div id="checklist-form" style="display:none;">
+    <div style="margin: 10px;overflow:auto;">
+
+      <?php include_component('admin', 'text', array('key' => 'settings-checklist-edit-title1', 'text' => 'Algemene gegevens', 'tag' => 'h2')); ?>
+      <?php include_component('admin', 'text', array('key' => 'settings-checklist-edit-help1', 'text' => '...')); ?>
+      <div class="form-row">
+        <div class="form-label"><label for="checklist-title">Naam</label></div>
+        <input type="text" name="checklist-title" id="checklist-title">
+      </div>
+
+      <div id="checklist-checklist-container">
+        <h2>Controlepunten <a href="#" title="Controlepunt toevoegen" id="checklist-add-row-link"><span class="fa fa-edit"></span></a></h2>
+        <div id="checklist-checklist"></div>
+      </div>
     </div>
     <div class="form-buttons">
       <button class="button-1">Sluiten</button>
       <button class="button-2">Opslaan</button>
     </div>
   </div>
+  <!-- micro edit for checklist row-->
+  <div id="microedit-checklist-checklist" style="display: none;">
+    <div style="padding:10px;">
+      <?php include_component('admin', 'text', array('key' => 'settings-checklist-row-help2', 'text' => '...')); ?>
+      <div class="form-row">
+        <div class="form-label"><label for="checklist-checklist-title">Omschrijving</label></div>
+        <input type="text" name="checklist-checklist-title" id="checklist-checklist-title">
+     </div>
+    </div>
+    <div class="form-buttons">
+      <button class="button-1">Annuleer</button>
+      <button class="button-2">OK</button>
+    </div>
+  </div>
+
+
+  <div class="settings-panel" id="settings-fields" style="display: none;">
+    <form action="#" method="post">
+      <fieldset>
+        <legend>Settings form</legend>
+        <?php include_component('admin', 'text', array('key' => 'settings-fields-help-title1', 'text' => 'Extra velden', 'tag' => 'h1', 'extra' => ' <a href="#" id="fields-add-link"><span class="fa fa-edit" title="Veld toevoegen"></span></a>')); ?>
+        <?php include_component('admin', 'text', array('key' => 'settings-fields-help1', 'text' => '...')); ?>
+
+        <div id="fields-list"></div>
+        <script type="text/javascript">
+          var fields_data_url = '<?php echo url_for('admin/fieldsData'); ?>';
+          var fields_ajax_url = '<?php echo url_for('admin/fieldsAjax'); ?>';
+        </script>
+      </fieldset>
+    </form>
+  </div>
+
+  <!-- detail view -->
+  <div id="fields-view" class="detail-view" style="display:none;">
+    <div style="margin: 10px;overflow:auto;">
+      <h2>Veld informatie <a href="#" title="Veld bewerken" id="fields-edit-link"><span class="fa fa-edit"></span></a></h2>
+      <table>
+        <tr>
+          <td style="width: 220px;font-weight: bold;">Naam</td>
+          <td id="fields-view-title"></td>
+        </tr>
+      </table>
+    </div>
+    <div class="form-buttons">
+      <button class="button-1">Sluiten</button>
+      <button class="button-2">Bewerken</button>
+    </div>
+  </div>
+  <!-- edit view -->
+  <div id="fields-form" style="display:none;">
+    <div style="margin: 10px;overflow:auto;">
+
+      <?php include_component('admin', 'text', array('key' => 'settings-fields-edit-title1', 'text' => 'Algemene gegevens', 'tag' => 'h2')); ?>
+      <?php include_component('admin', 'text', array('key' => 'settings-fields-edit-help1', 'text' => '...')); ?>
+      <div class="form-row">
+        <div class="form-label"><label for="fields-title">Naam</label></div>
+        <input type="text" name="fields-title" id="fields-title">
+      </div>
+      <div class="form-row">
+        <div class="form-label"><label for="fields-form">Formulier</label></div>
+        <select type="text" name="fields-fform" id="fields-fform" style="width:26em;">
+          <option value="customer">Dit veld heeft een unieke waarde per klant</option>
+          <option value="app">Dit veld heeft een unieke waarde per afspraak</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-buttons">
+      <button class="button-1">Sluiten</button>
+      <button class="button-2">Opslaan</button>
+    </div>
+  </div>
+
 
   <div class="settings-panel" id="settings-login" style="display: none;">
 

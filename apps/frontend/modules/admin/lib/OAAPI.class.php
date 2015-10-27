@@ -1,22 +1,22 @@
 <?php
 
 class OAAPI {
-  public function __construct()
+  protected $api_url = '';
+  protected $api_key = '';
+  protected $api_secret = '';
+  public function __construct($company = null)
   {
-    $credentials_id = sfContext::getInstance()->getUser()->getAttribute('userid');
-    $credentials = CredentialsPeer::retrieveByPk($credentials_id);
-
-    $company = CompanyPeer::retrieveByPK($credentials->getCompanyId());
-
-    $connection = $company->getConnection();
-    //var_dump($current_user->xid);
-    //var_dump($current_user->getApiServer());
-    //exit;
-    if (!defined('API_SECRET')) {
-      define('API_URL', $connection->getApiServer());
-      define('API_KEY', $connection->getApiKey());
-      define('API_SECRET', $connection->getApiSecret());
+    if (!$company) {
+      echo 'here';
+      $credentials_id = sfContext::getInstance()->getUser()->getAttribute('userid');
+      $credentials = CredentialsPeer::retrieveByPk($credentials_id);
+      $company = CompanyPeer::retrieveByPK($credentials->getCompanyId());
     }
+    $connection = $company->getConnection(true);
+    $this->api_url = $connection->getApiServer();
+    $this->api_key = $connection->getApiKey();
+    $this->api_secret =  $connection->getApiSecret();
+
   }
   /**
    *
@@ -32,8 +32,10 @@ class OAAPI {
     $url = $this->createRequestURL($method, $parameters);
 
     $response = @file_get_contents($url);
-    //echo $url." \n";
-    //echo $response;
+    if ($method == 'getAgendas') {
+     // echo $url . " \n";
+     // echo $response;
+    }
     if (!$response) {
       return false;
       //$this->throwException('Could not load API URL', 'B'.__LINE__);
@@ -110,9 +112,9 @@ class OAAPI {
   {
     $salt = time();
 
-    $signature = $this->sign(array_merge(array('method'=>$method), $parameters), API_SECRET, $salt);
+    $signature = $this->sign(array_merge(array('method'=>$method), $parameters), $this->api_secret, $salt);
 
-    $url = API_URL.'?api_salt='.$salt.'&api_signature='.$signature.'&api_key='.API_KEY.'&method='.$method;
+    $url = $this->api_url.'?api_salt='.$salt.'&api_signature='.$signature.'&api_key='.$this->api_key.'&method='.$method;
     foreach ($parameters as $key => $value) {
       $url .= '&'.urlencode($key).'='.urlencode($value);
     }

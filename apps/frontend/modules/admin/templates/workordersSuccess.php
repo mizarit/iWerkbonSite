@@ -50,7 +50,7 @@
 <!-- detail view -->
 <div id="workorder-view" class="detail-view" style="display:none;">
   <div style="margin: 10px;overflow:auto;">
-    <h2>Werkbon details <a href="#" id="workorder-edit-link"><span class="fa fa-edit"></span></a></h2>
+    <h2>Werkbon details <a href="#" id="workorder-edit-link" title="Details bewerken"><span class="fa fa-edit"></span></a></h2>
     <table>
       <tr>
         <td style="width: 220px;font-weight: bold;">Status</td>
@@ -76,9 +76,20 @@
         <td>Handtekening klant</td>
         <td id="workorder-view-signature"></td>
       </tr>
+      <?php
+      $c = new Criteria;
+      $c->add(FieldPeer::COMPANY_ID, $company->getId());
+      $c->add(FieldPeer::FORM, 'app');
+      $extra_fields = FieldPeer::doSelect($c);
+      foreach ($extra_fields as $extra_field) { ?>
+        <tr>
+          <td><?php echo $extra_field->getLabel(); ?></td>
+          <td id="workorder-view-extra-1-<?php echo $extra_field->getId(); ?>"></td>
+        </tr>
+      <?php } ?>
     </table>
 
-    <h2>Klantgegevens <a href="#" id="customer-edit-link"><span class="fa fa-edit"></span></a></h2>
+    <h2>Klantgegevens <a href="#" id="customer-edit-link" title="Klantgegevens bewerken"><span class="fa fa-edit"></span></a></h2>
     <table>
       <tr>
         <td style="width: 220px;font-weight: bold;">Naam</td>
@@ -105,6 +116,9 @@
     <h2>Orderregels <a href="#" id="workorder-add-link"><span class="fa fa-edit" title="Orderregel toevoegen"></span></a></h2>
     <div id="workorder-orderrows"></div>
 
+    <h2>Controlepunten</h2>
+    <div id="workorder-checklist"></div>
+
     <h2>Factuur</h2>
     <div id="workorder-invoices"></div>
 
@@ -116,6 +130,9 @@
   </div>
   <div class="form-buttons">
     <button class="button-1">Sluiten</button>
+    <button class="button-4" id="export-btn">Exporteren</button>
+    <button class="button-4" id="print-btn">Afdrukken</button>
+    <button class="button-4" id="download-btn">Downloaden</button>
     <button class="button-2">Bewerken</button>
   </div>
 </div>
@@ -125,10 +142,10 @@
     <div class="form-row">
       <div class="form-label"><label for="workorder-status">Status</label></div>
       <select name="workorder-status" id="workorder-status">
+        <option value="scheduled">Ingepland</option>
         <option value="started">Gestart</option>
         <option value="success">Afgerond</option>
         <option value="cancelled">Geannuleerd</option>
-        <option value="scheduled">Ingepland</option>
       </select>
     </div>
 
@@ -146,7 +163,7 @@
 
     <div class="form-row">
       <div class="form-label"><label for="workorder-date">Datum</label></div>
-      <input type="text" name="workorder-date" id="workorder-date" style="width:6em;">
+      <input type="text" name="workorder-date" id="workorder-date" value="<?php echo date('d-m-Y'); ?>" style="width:6em;">
     </div>
     <div class="form-row">
       <div class="form-label"><label for="workorder-remarks">Opmerkingen</label></div>
@@ -156,6 +173,17 @@
       <div class="form-label"><label for="workorder-ready">Gereed</label></div>
       <input type="checkbox" class="checkbox" name="workorder-ready" id="workorder-ready">
     </div>
+    <?php
+    $c = new Criteria;
+    $c->add(FieldPeer::COMPANY_ID, $company->getId());
+    $c->add(FieldPeer::FORM, 'app');
+    $extra_fields = FieldPeer::doSelect($c);
+    foreach ($extra_fields as $extra_field) { ?>
+      <div class="form-row">
+        <div class="form-label"><label for="workorder-extra-1-<?php echo $extra_field->getId(); ?>"><?php echo $extra_field->getLabel(); ?></label></div>
+        <input type="text" class="extra-field" name="workorder-extra-1-<?php echo $extra_field->getId(); ?>" id="workorder-extra-1-<?php echo $extra_field->getId(); ?>">
+      </div>
+    <?php } ?>
   </div>
   <div class="form-buttons">
     <button class="button-1">Sluiten</button>
@@ -179,7 +207,7 @@
       </div>
     <div class="form-row" id="orderrow-price-container">
       <div class="form-label"><label for="orderrow-price">Prijs</label></div>
-      € <input type="text" name="orderrow-price" id="orderrow-price" style="width:6em;">
+      <input type="text" name="orderrow-price" id="orderrow-price" class="currency">
     </div>
     <div class="form-row" id="orderrow-duration-container">
       <div class="form-label"><label for="orderrow-duration">Tijdsduur ( minuten )</label></div>
@@ -201,11 +229,11 @@
     <div style="padding:10px;">
       <div class="form-row">
         <div class="form-label"><label for="payment-date">Datum</label></div>
-        <input type="text" name="payment-date" id="payment-date" style="width:6em;">
+        <input type="text" name="payment-date" id="payment-date" value="<?php echo date('d-m-Y'); ?>" style="width:6em;">
       </div>
       <div class="form-row">
         <div class="form-label"><label for="payment-total">Bedrag</label></div>
-        € <input type="text" name="payment-total" id="payment-total" style="width:6em;">
+        <input type="text" name="payment-total" id="payment-total" class="currency">
       </div>
       <div class="form-row">
         <div class="form-label"><label for="payment-type">Betaalmethode</label></div>

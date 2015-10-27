@@ -37,7 +37,7 @@
 <!-- detail view -->
 <div id="invoice-view" class="detail-view" style="display:none;">
   <div style="margin: 10px;overflow:auto;">
-    <h2>Factuur details <a href="#" id="invoice-edit-link"><span class="fa fa-edit"></span></a></h2>
+    <h2>Factuur details <a href="#" title="Factuur details bewerken" id="invoice-edit-link"><span class="fa fa-edit"></span></a></h2>
     <table>
       <tr>
         <td style="width: 220px;font-weight: bold;">Status</td>
@@ -106,18 +106,18 @@
   <div style="padding:10px;">
     <div class="form-row">
       <div class="form-label"><label for="payment-date">Datum</label></div>
-      <input type="text" name="payment-date" id="payment-date" style="width:6em;">
+      <input type="text" name="payment-date" id="payment-date" style="width:6em;" value="<?php echo date('d-m-Y'); ?>">
     </div>
     <div class="form-row">
       <div class="form-label"><label for="payment-total">Bedrag</label></div>
-      € <input type="text" name="payment-total" id="payment-total" style="width:6em;">
+      <input type="text" name="payment-total" id="payment-total" class="currency">
     </div>
     <div class="form-row">
       <div class="form-label"><label for="payment-type">Betaalmethode</label></div>
       <select type="text" name="payment-paymethod" id="payment-paymethod" style="width:10em;">
+        <option value="invoice">Op rekening</option>
         <option value="pin">Pin-betaling</option>
         <option value="cash">Contant</option>
-        <option value="invoice">Op rekening</option>
       </select>
     </div>
   </div>

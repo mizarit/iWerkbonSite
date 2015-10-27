@@ -2,3 +2,9 @@ all:
   is_secure: true
 login:
   is_secure: false
+register:
+  is_secure: false
+thankyou:
+  is_secure: false
+syncOA:
+  is_secure: false

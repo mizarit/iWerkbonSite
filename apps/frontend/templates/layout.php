@@ -14,7 +14,7 @@
     </div>
   </div>
   <div id="confirm-form" style="display:none;">
-    <div class="modal-inner" style="margin:10px;">
+    <div class="modal-inner-micro" style="margin:10px;">
     <p id="confirm-caption"></p>
     </div>
     <div class="form-buttons">

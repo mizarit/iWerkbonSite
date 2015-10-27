@@ -38,7 +38,7 @@ Event.observe(window, 'load', function() {
 <!-- detail view -->
 <div id="customer-view" class="detail-view" style="display:none;">
   <div style="margin: 10px;overflow:auto;">
-    <h2>Klantgegevens <a href="#" id="customer-edit-link"><span class="fa fa-edit"></span></a></h2>
+    <h2>Klantgegevens <a href="#" id="customer-edit-link" title="Klantgegevens bewerken"><span class="fa fa-edit"></span></a></h2>
     <table>
       <tr>
         <td style="width: 220px;font-weight: bold;">Naam</td>
@@ -60,12 +60,23 @@ Event.observe(window, 'load', function() {
         <td>Telefoonnummer</td>
         <td id="customer-view-phone"></td>
       </tr>
+      <?php
+      $c = new Criteria;
+      $c->add(FieldPeer::COMPANY_ID, $company->getId());
+      $c->add(FieldPeer::FORM, 'customer');
+      $extra_fields = FieldPeer::doSelect($c);
+      foreach ($extra_fields as $extra_field) { ?>
+        <tr>
+          <td><?php echo $extra_field->getLabel(); ?></td>
+          <td id="customer-view-extra-1-<?php echo $extra_field->getId(); ?>"></td>
+        </tr>
+      <?php } ?>
     </table>
-    <h2>Werkbonnen</h2>
+    <h2>Werkbonnen <a href="#" id="customer-add-workorder" title="Werkbon toevoegen voor deze klant"><span class="fa fa-edit"></span></a></h2>
     <div id="customer-workorders"></div>
     <h2>Facturen</h2>
     <div id="customer-invoices"></div>
-    <h2>Notities <a href="#" id="customer-add-note"><span class="fa fa-edit"></span></a></h2>
+    <h2>Notities <a href="#" id="customer-add-note" title="Notitie toevoegen"><span class="fa fa-edit"></span></a></h2>
     <div id="customer-notes"></div>
     <h2>Foto's</h2>
     <div id="customer-photos"></div>
@@ -102,6 +113,17 @@ Event.observe(window, 'load', function() {
       <div class="form-label"><label for="customer-phone">Telefoon</label></div>
       <input type="text" name="customer-phone" id="customer-phone" style="width: 7em;">
     </div>
+    <?php
+    $c = new Criteria;
+    $c->add(FieldPeer::COMPANY_ID, $company->getId());
+    $c->add(FieldPeer::FORM, 'customer');
+    $extra_fields = FieldPeer::doSelect($c);
+    foreach ($extra_fields as $extra_field) { ?>
+      <div class="form-row">
+        <div class="form-label"><label for="customer-extra-1-<?php echo $extra_field->getId(); ?>"><?php echo $extra_field->getLabel(); ?></label></div>
+        <input type="text" class="extra-field" name="customer-extra-1-<?php echo $extra_field->getId(); ?>" id="customer-extra-1-<?php echo $extra_field->getId(); ?>">
+      </div>
+    <?php } ?>
   </div>
   <div class="form-buttons">
     <button class="button-1">Sluiten</button>
@@ -113,11 +135,11 @@ Event.observe(window, 'load', function() {
   <div style="padding:10px;">
     <div class="form-row">
       <div class="form-label"><label for="note-date">Datum</label></div>
-      <input type="text" name="note-date" id="note-date" style="width:6em;">
+      <input type="text" name="note-date" id="note-date" style="width:6em;" value="<?php echo date('d-m-Y'); ?>">
     </div>
     <div class="form-row">
       <div class="form-label"><label for="note-text">Notitie</label></div>
-      <textarea name="note-text" id="note-text" style="width:16em;height:8em;"></textarea>
+      <textarea name="note-text" id="note-text" style="width:30em;height:12em;"></textarea>
     </div>
   </div>
   <div class="form-buttons">

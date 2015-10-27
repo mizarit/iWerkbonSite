@@ -12,6 +12,9 @@ settingsSuccess:
     - /js/settings.js
     - /js/list.js
     - /js/resource.js
+    - /js/checklist.js
+    - /js/fields.js
+    - /js/currency.js
     - /js/colorpickerjs-1.0/yahoo.color.js
     - /js/colorpickerjs-1.0/colorPicker.js
     - /zeusCore/js/swfupload/fileprogress.js
@@ -24,12 +27,15 @@ adminSuccess:
     - /js/list.js
     - /js/invoice.js
     - /js/myui/myui.js
+    - /js/currency.js
 workordersSuccess:
   javascripts:
     - /js/list.js
     - /js/workorder.js
     - /js/myui/myui.js
     - /js/lightwindow/javascript/lightwindow.js
+    - /js/currency.js
+    - /js/autocomplete.js
   stylesheets:
     - /js/lightwindow/css/lightwindow.css
 planboardSuccess:
@@ -38,5 +44,6 @@ planboardSuccess:
     - /js/list.js
     - /js/Proto.TimePicker/Proto.TimePicker.js
     - /js/autocomplete.js
+    - /js/currency.js
   stylesheets:
     - /js/Proto.TimePicker/Proto.TimePicker.css

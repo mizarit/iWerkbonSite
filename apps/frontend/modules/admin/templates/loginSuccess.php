@@ -22,6 +22,7 @@
 
       ?>
       <div class="form-button" style="border-top: #cecece 1px solid;text-align:right;padding-top: 1em;">
+        <p style="text-align:left;margin:0;float:left;"><button type="button" class="button-4" onclick="window.location.href='<?php echo url_for('admin/register'); ?>';">Registreren</button></p>
         <button type="submit" class="button-2">Inloggen</button>
       </div>
     </fieldset>
@@ -35,3 +36,10 @@
     display: none;
   }
 </style>
+<script type="text/javascript">
+  localStorage.setItem('expire_appointment-list', 0);
+  localStorage.setItem('expire_customer-list', 0);
+  localStorage.setItem('expire_invoice-list', 0);
+  localStorage.setItem('expire_planboard-list', 0);
+  localStorage.setItem('expire_workorder-list', 0);
+</script>

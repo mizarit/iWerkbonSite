@@ -47,6 +47,10 @@ var trackOutboundLink = function(url) {
       </div>
     </div>
   </div>
+  <div id="loader">
+    <div id="loader-overlay"></div>
+    <div id="loader-inner"><img src="/img/squares.svg"><br>De gegevens worden bijgewerkt...</div>
+  </div>
   <div id="header">
     <div id="logo">
       <a href="<?php echo url_for('@homepage'); ?>"><img src="/img/logo-iwerkbon.png" alt="iWerkbon"></a>
