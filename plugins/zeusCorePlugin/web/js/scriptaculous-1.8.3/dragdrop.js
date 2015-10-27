@@ -137,6 +137,10 @@ var Draggables = {
       Event.observe(document, "mouseup", this.eventMouseUp);
       Event.observe(document, "mousemove", this.eventMouseMove);
       Event.observe(document, "keypress", this.eventKeypress);
+
+        Event.observe(document, "touchstart", this.eventKeypress);
+        Event.observe(document, "touchmove", this.eventMouseMove);
+        Event.observe(document, "touchend", this.eventMouseUp);
     }
     this.drags.push(draggable);
   },
@@ -144,6 +148,11 @@ var Draggables = {
   unregister: function(draggable) {
     this.drags = this.drags.reject(function(d) { return d==draggable });
     if(this.drags.length == 0) {
+
+        Event.stopObserving(document, "touchstart", this.eventKeypress);
+        Event.stopObserving(document, "touchmove", this.eventMouseMove);
+        Event.stopObserving(document, "touchend", this.eventMouseUp);
+
       Event.stopObserving(document, "mouseup", this.eventMouseUp);
       Event.stopObserving(document, "mousemove", this.eventMouseMove);
       Event.stopObserving(document, "keypress", this.eventKeypress);
@@ -283,12 +292,14 @@ var Draggable = Class.create({
 
     this.eventMouseDown = this.initDrag.bindAsEventListener(this);
     Event.observe(this.handle, "mousedown", this.eventMouseDown);
+      Event.observe(this.handle, "touchstart", this.eventMouseDown);
 
     Draggables.register(this);
   },
 
   destroy: function() {
     Event.stopObserving(this.handle, "mousedown", this.eventMouseDown);
+      Event.stopObserving(this.handle, "touchstart", this.eventMouseDown);
     Draggables.unregister(this);
   },
 
@@ -301,7 +312,7 @@ var Draggable = Class.create({
   initDrag: function(event) {
     if(!Object.isUndefined(Draggable._dragging[this.element]) &&
       Draggable._dragging[this.element]) return;
-    if(Event.isLeftClick(event)) {
+      if(Event.isLeftClick(event) || event.type == "touchstart") {
       // abort on form elements, fixes a Firefox issue
       var src = Event.element(event);
       if((tag_name = src.tagName.toUpperCase()) && (

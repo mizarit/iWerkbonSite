@@ -5443,23 +5443,36 @@ Form.EventObserver = Class.create(Abstract.EventObserver, {
     return { x: pointerX(event), y: pointerY(event) };
   }
 
-  function pointerX(event) {
-    var docElement = document.documentElement,
-     body = document.body || { scrollLeft: 0 };
+    function pointerX(event) {
+        var docElement = document.documentElement,
+            body = document.body || { scrollLeft: 0 };
 
-    return event.pageX || (event.clientX +
-      (docElement.scrollLeft || body.scrollLeft) -
-      (docElement.clientLeft || 0));
-  }
 
-  function pointerY(event) {
-    var docElement = document.documentElement,
-     body = document.body || { scrollTop: 0 };
+        if (event.changedTouches) return (event.changedTouches[0].clientX +
+        (docElement.scrollLeft || body.scrollLeft) -
+        (docElement.clientLeft || 0));
 
-    return  event.pageY || (event.clientY +
-       (docElement.scrollTop || body.scrollTop) -
-       (docElement.clientTop || 0));
-  }
+
+        return event.pageX || (event.clientX +
+        (docElement.scrollLeft || body.scrollLeft) -
+        (docElement.clientLeft || 0));
+    }
+
+
+    function pointerY(event) {
+        var docElement = document.documentElement,
+            body = document.body || { scrollTop: 0 };
+
+
+        if (event.changedTouches) return (event.changedTouches[0].clientY +
+        (docElement.scrollTop || body.scrollTop) -
+        (docElement.clientTop || 0));
+
+
+        return  event.pageY || (event.clientY +
+        (docElement.scrollTop || body.scrollTop) -
+        (docElement.clientTop || 0));
+    }
 
 
   function stop(event) {
