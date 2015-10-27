@@ -136,6 +136,126 @@ class adminActions extends sfActions
     exit;
   }
 
+  public function executeSyncFile()
+  {
+    $data = json_decode($this->getRequestParameter('payload'), true);
+    $file_data = @file_get_contents($data['path']);
+    if (!is_dir(sfConfig::get('sf_web_dir').'/workorders')) {
+      mkdir(sfConfig::get('sf_web_dir').'/workorders', 0777);
+    }
+    if (!is_dir(sfConfig::get('sf_web_dir').'/workorders/'.$data['workorder_id'])) {
+      mkdir(sfConfig::get('sf_web_dir').'/workorders/'.$data['workorder_id'], 0777);
+    }
+
+    if ($file_data) {
+      $filename = '/workorders/'.$data['workorder_id'].'/'.basename($data['path']);
+
+      file_put_contents(sfConfig::get('sf_web_dir').$filename, $file_data);
+
+      $c = new Criteria;
+      $c->add(FilePeer::FTYPE, $data['type']);
+      $c->add(FilePeer::CUSTOMER_ID, $data['customer_id']);
+      $c->add(FilePeer::WORKORDER_ID, $data['workorder_id']);
+      $c->add(FilePeer::PATH, $filename);
+      $file = FilePeer::doSelectOne($c);
+      if (!$file) {
+        $file = new File;
+        $file->setFtype($data['type']);
+        $file->setDate(date('Y-m-d H:i:s'));
+        $file->setCustomerId($data['customer_id']);
+        $file->setWorkorderId($data['workorder_id']);
+        $file->setPath($filename);
+        $file->save();
+      }
+
+    }
+
+    echo json_encode(array('status' => 'success', 'file' => $filename));
+    exit;
+  }
+
+  private function refreshApps($company, $resource_id = null)
+  {
+    $c = new Criteria;
+    $c->add(ResourcePeer::COMPANY_ID, $company->getId());
+    if ($resource_id) {
+      $c->add(ResourcePeer::ID, $resource_id);
+    }
+    $resources = ResourcePeer::doSelect($c);
+    foreach($resources as $resource) {
+      if ($resource->getDevice() == 'ios') {
+        $data = array(
+          'env' => 'dev',
+          'receiver' => $resource->getNotifier(),
+          'apn' => 'medusa',
+      /*'aps' => array(
+        'alert' => '',
+        'content-available' => 1,
+        'badge' => (int)0,
+        'payload' => 'alertName',
+        'payload_params' => "{name:'Ricardo'}"
+      )*/
+      /*
+        'aps' => array(
+          'alert' => 'Ontvang je dit push-bericht?',
+          'sound' => 'default',
+          'badge' => (int)0,
+        )
+*/
+          'aps' => array(
+            'alert' => '',
+            'content-available' => 0,
+            'badge' => (int)0,
+            'payload' => 'Workorder.refresh',
+            'payload_params' => ""
+          )
+        );
+        $url = 'http://apn.dev.mizar-it.nl';
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array('data' => json_encode($data)));
+        $output = curl_exec($curl);
+      }
+      if ($resource->getDevice() == 'android') {
+        // payload
+        $data = array(
+          'registration_ids' => array($resource->getNotifier()),
+          'data' => array(
+            'payload' => 'Workorder.refresh',
+            'payload_args' => ''
+          ),
+        );
+
+        $url = 'https://android.googleapis.com/gcm/send';
+        $push_api_key = 'AIzaSyDtav4GVB3sPVn0jEPjGfUd7LQ6N56DJPQ';
+
+        $headers = array(
+          'Authorization: key=' . $push_api_key,
+          'Content-Type: application/json'
+        );
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        $output = curl_exec($curl);
+       /* ob_start();
+        echo '<pre>';
+        var_dump(json_decode($output));
+        echo '</pre>';
+       */
+      }
+    }
+
+    $resources = ResourcePeer::doSelect($c);
+  }
+
   public function executePlanboard()
   {
     $this->getResponse()->addJavascript('/js/planboard.js', 'last');
@@ -605,7 +725,7 @@ class adminActions extends sfActions
                   $c->clear();
                   $c->add(FieldValuePeer::COMPANY_ID, $company->getId());
                   $c->add(FieldValuePeer::FIELD_ID, $i);
-                  $c->add(FieldValuePeer::OBJECT_ID, $form == 1 ? $customer->getId() : $appointment->getId());
+                  $c->add(FieldValuePeer::OBJECT_ID, $form == 'customer' ? $customer->getId() : $appointment->getId());
                   $field_value = FieldValuePeer::doSelectOne($c);
                   if (!$field_value) {
                     $field_value = new FieldValue;
@@ -628,12 +748,14 @@ class adminActions extends sfActions
                 }
               }
 
+              $this->refreshApps($company, $appointment->getResourceId());
               $data['status'] = 'success';
               break;
 
             case 'delete':
               $appointment->setActive(false);
               $appointment->save();
+              $this->refreshApps($company, $appointment->getResourceId());
               $data['status'] = 'success';
               break;
           }
@@ -690,6 +812,7 @@ class adminActions extends sfActions
           case 'move':
             $appointment = AppointmentPeer::retrieveByPK($id);
             if ($appointment) {
+              $oldResource = $appointment->getResourceId();
               $appointment->setResourceId($this->getRequestParameter('resource'));
               $date = date('Y-m-d', strtotime($appointment->getDate()));
               $start = $this->getRequestParameter('start');
@@ -709,6 +832,10 @@ class adminActions extends sfActions
               $appointment->setDate($date.' '.$start);
               $appointment->setEndDate($date.' '.$finish);
               $appointment->save();
+              $this->refreshApps($company, $appointment->getResourceId());
+              if ($appointment->getResourceId() != $oldResource) {
+                $this->refreshApps($company, $oldResource);
+              }
               $data['status'] = 'success';
             }
             break;
@@ -1054,7 +1181,7 @@ class adminActions extends sfActions
                 'photos' => array(),
                 'invoices' => array(),
                 'payments' => array(),
-                'signature' => '<img src="' . $workorder->getSignature() . '">',
+                'signature' => $workorder->getSignature() != '' ? '<img src="' . $workorder->getSignature() . '">' : 'Niet beschikbaar',
                 'orderrows' => json_decode($workorder->getOrderrows()),
                 'extra_fields' => array(),
                 'checklist' => array()
@@ -1066,13 +1193,13 @@ class adminActions extends sfActions
               $c->add(FieldPeer::ACTIVE, true);
               $c->add(FieldPeer::FORM, 'app');
               $fields = FieldPeer::doSelect($c);
+              $c2->clear();
+              $c2->add(AppointmentPeer::WORKORDER_ID, $workorder->getId());
+              $appointment = AppointmentPeer::doSelectOne($c2);
               foreach ($fields as $field) {
                 $value = '';
                 // try to load a value for this field
                 $c->clear();
-                $c2->clear();
-                $c2->add(AppointmentPeer::WORKORDER_ID, $workorder->getId());
-                $appointment = AppointmentPeer::doSelectOne($c);
                 if ($appointment) {
                   $c->add(FieldValuePeer::COMPANY_ID, $company->getId());
                   $c->add(FieldValuePeer::FIELD_ID, $field->getId());
@@ -1172,7 +1299,7 @@ class adminActions extends sfActions
               $c = new Criteria;
               $c2 = new Criteria;
               $c2->add(AppointmentPeer::WORKORDER_ID, $workorder->getId());
-              $appointment = AppointmentPeer::doSelectOne($c);
+              $appointment = AppointmentPeer::doSelectOne($c2);
               if ($appointment) {
                 foreach($this->getRequest()->getParameterHolder()->getAll() as $field => $value) {
                   if (substr($field,0,6) == 'extra_') {
@@ -2849,6 +2976,7 @@ class adminActions extends sfActions
         for ($i = 1; $i < 13; $i++) {
           $company->setSetting('app-setting-'.$i, $this->getRequestParameter('app-setting-'.$i) === 'true'?1:0);
         }
+        $this->refreshApps($company);
         break;
       default:
         break;

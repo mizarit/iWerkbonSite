@@ -33,6 +33,7 @@ propel:
     remarks:        longvarchar
     orderrows:      longvarchar
     signature:      varchar(255)
+    pdf:            varchar(255)
     ready:          boolean
 
   invoice:
@@ -89,6 +90,8 @@ propel:
     email:           varchar(255)
     phone:           varchar(255)
     xid:             varchar(255)
+    notifier:        varchar(255)
+    device:          varchar(16)
 
   customer:
     _attributes:      { phpName: Customer, package: lib.model }

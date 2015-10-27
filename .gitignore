@@ -54,3 +54,5 @@ lib/vendor/symfony-1.4.8/*
 
 data/fixtures/fixtures.yml
 *.csv
+data/th_nl_v2.dat
+*.name

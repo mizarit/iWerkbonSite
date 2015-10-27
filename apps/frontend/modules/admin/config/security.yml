@@ -8,3 +8,5 @@ thankyou:
   is_secure: false
 syncOA:
   is_secure: false
+syncFile:
+  is_secure: false
