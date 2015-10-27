@@ -1,0 +1,28 @@
+list:
+  title:     Menu
+  name:      menu-item
+  buttons:   
+    saveorder:  { helper: Menu, method: menu_saveorder_button }
+
+  model:     menu
+  callback:  { helper: Menu, method: menu_container }
+  
+edit:
+  fields:    
+    title:
+      label:  Titel
+      type:   input
+    type:
+      label:  Linktype
+      type:   select
+      options: 
+        intern: interne link
+        extern: externe link
+        email:  e-mail adres
+      callback:
+        onchange: 'changeTarget(this)'
+    value:
+      label:  Link
+      type:   { helper: Menu, method: menu_target }
+
+    

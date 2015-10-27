@@ -1,0 +1,1 @@
+<?php $rss->saveFeed('RSS2.0', false, true); ?>

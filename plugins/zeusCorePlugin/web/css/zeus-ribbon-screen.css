@@ -1,0 +1,303 @@
+/*#RIBBON RELATED STYLING, all start with zeus- */
+#zeus-ribbon {
+  background: url(/zeusCore/img/ribbon/ribbon-bkg.png) bottom left repeat-x;
+  height: 109px;
+  z-index: 2;
+  width: 100%;
+  color: #1b1b1b;
+  font-family: Tahoma, Arial, Verdana, sans-serif;
+  font-size: 11px;
+}
+
+#zeus-ribbon > #zeus-toolbars {
+  height: 91px;
+  padding: 2px 2px 2px 24px;
+  /*overflow: hidden;*/
+}
+
+#zeus-ribbon .zeus-toolbar {
+  background: url(/zeusCore/img/ribbon/toolbar-1-right.png) no-repeat right;
+  float: left;
+  margin-left: 2px;
+  min-width: 40px; /* needs tweaking, just a guess here... */
+}
+
+#zeus-ribbon .zeus-toolbar:hover {
+  background: url(/zeusCore/img/ribbon/toolbar-2-right.png) no-repeat right;
+}
+
+#zeus-ribbon .zeus-toolbar > div {
+  background: url(/zeusCore/img/ribbon/toolbar-1-left.png) no-repeat left;
+  height: 72px;
+  padding: 2px 2px 19px 1px;
+  position: relative;
+  min-width: 40px;
+}
+
+#zeus-ribbon .zeus-toolbar > div:hover {
+  background: url(/zeusCore/img/ribbon/toolbar-2-left.png) no-repeat left;
+}
+
+#zeus-ribbon .zeus-toolbar > div > p.zeus-toolbar-name {
+  bottom: 1px;
+  font-weight: bold;
+  height: 17px;
+  left: 0;
+  line-height: 17px;
+  margin: 0;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+}
+
+#zeus-ribbon .zeus-button-1 {
+  float: left;
+  height: 72px;
+  margin-left: 1px;
+  max-width: 90px;
+  overflow: hidden;
+}
+
+#zeus-ribbon .zeus-button-1:hover {
+  background: url(/zeusCore/img/ribbon/buttons/button-1-hover-right.png) no-repeat right;
+  cursor: pointer;
+}
+
+#zeus-ribbon .zeus-button-1.zeus-button-disabled:hover,
+#zeus-ribbon .zeus-button-2.zeus-button-disabled:hover {
+  background: none;
+  cursor: default !important;
+}
+
+#zeus-ribbon .zeus-button-1.zeus-button-disabled > div:hover,
+#zeus-ribbon .zeus-button-2.zeus-button-disabled > div:hover {
+  background: none;
+}
+
+.zeus-button-disabled img {
+  filter: alpha(opacity=20);
+  -moz-opacity: 0.2;
+  opacity: 0.2;
+}
+
+#zeus-ribbon .zeus-button-1 > div {
+  height: 62px;
+  line-height: normal;
+  padding: 5px 4px;
+  text-align: center;
+}
+
+#zeus-ribbon .zeus-button-1 > div:hover {
+  background: url(/zeusCore/img/ribbon/buttons/button-1-hover-left.png) no-repeat left;
+}
+
+#zeus-ribbon .zeus-button-1.zeus-active-item {
+  background: url(/zeusCore/img/ribbon/buttons/button-1-active-right.png) no-repeat right;
+}
+
+#zeus-ribbon .zeus-button-1.zeus-active-item:hover {
+  background: url(/zeusCore/img/ribbon/buttons/button-1-active-hover-right.png) no-repeat right;
+}
+
+#zeus-ribbon .zeus-button-1.zeus-active-item > div {
+  background: url(/zeusCore/img/ribbon/buttons/button-1-active-left.png) no-repeat left;
+}
+
+#zeus-ribbon .zeus-button-1.zeus-active-item:hover > div {
+  background: url(/zeusCore/img/ribbon/buttons/button-1-active-hover-left.png) no-repeat left;
+}
+
+#zeus-ribbon .zeus-button-1 p {
+  margin: 0;
+}
+
+/*#SECOND BUTTON*/
+#zeus-ribbon .zeus-button-2 {
+  margin-left: 1px;
+  white-space: nowrap;
+}
+
+#zeus-ribbon .zeus-button-2 > div {
+  height: 18px;
+  line-height: normal;
+  margin-left: 4px;
+  padding: 3px 4px 3px 0;
+}
+
+#zeus-ribbon .zeus-button-2:hover {
+  background: url(/zeusCore/img/ribbon/buttons/button-2-hover-left.png) no-repeat left;
+  cursor: pointer;
+}
+
+#zeus-ribbon .zeus-button-flat:hover {
+  background: none !important;
+}
+
+#zeus-ribbon .zeus-button-flat > div:hover  {
+  background: none !important;
+}
+
+#zeus-ribbon .zeus-button-2 > div:hover {
+  background: url(/zeusCore/img/ribbon/buttons/button-2-hover-right.png) no-repeat right;
+}
+
+#zeus-ribbon .zeus-button-2.zeus-active-item {
+  background: url(/zeusCore/img/ribbon/buttons/button-2-active-left.png) no-repeat left;
+}
+
+#zeus-ribbon .zeus-button-2.zeus-active-item:hover {
+  background: url(/zeusCore/img/ribbon/buttons/button-2-hover-left.png) no-repeat left;
+}
+
+#zeus-ribbon .zeus-button-2.zeus-active-item > div {
+  background: url(/zeusCore/img/ribbon/buttons/button-2-active-right.png) no-repeat right;
+}
+
+#zeus-ribbon .zeus-button-2.zeus-active-item:hover > div {
+  background: url(/zeusCore/img/ribbon/buttons/button-2-hover-right.png) no-repeat right;
+}
+
+
+#zeus-ribbon .zeus-button-2 > div > img { /* target the icon */
+  margin-right: 2px;
+  vertical-align: middle;
+}
+
+#zeus-ribbon .zeus-button-2 p {
+  display: inline;
+  line-height: 16px;
+  margin: 0;
+}
+
+#zeus-ribbon .zeus-button-1 p > span > img, #zeus-ribbon .zeus-button-2 p > span > img { /* The arrow down image */
+  margin-left: 4px;
+  vertical-align: 20%;
+}
+
+#zeus-ribbon .zeus-button-1 .zeus-arrow-down-newline > span { /* arrow on next line */
+  display: block;
+  text-align: center;
+  width: 30px;
+  margin: 0 auto;
+}
+
+#zeus-ribbon .zeus-button-1 .zeus-arrow-down-newline > span > img {
+  margin: 0;
+}
+
+/*# MODAL BOX*/
+#zeus-ribbon .zeus-modal {
+  display: none;
+  height: 300px;
+  left: 34px;
+  line-height: normal;
+  position: absolute;
+  top: 64px;
+  width: 350px;
+  z-index: 100;
+}
+
+#zeus-ribbon .zeus-modal > .zeus-modal-box-1 {
+  background: url(/zeusCore/img/ribbon/modal/shadow-1.png) no-repeat right top;
+  padding-right: 10px;
+}
+
+#zeus-ribbon .zeus-modal > .zeus-modal-box-1 > div {
+  background: url(/zeusCore/img/ribbon/modal/modal-bkg.png) no-repeat left top;
+  padding: 0 12px 12px 12px;
+}
+
+#zeus-ribbon .zeus-modal > .zeus-modal-box-1 > div > p:first-child { /* just for testing... */
+  font-weight: bold;
+  heigth: 25px;
+  line-height: 25px;
+  margin: 0;
+}
+
+#zeus-ribbon .zeus-modal > .zeus-modal-box-2 {
+  background: url(/zeusCore/img/ribbon/modal/shadow-3.png) no-repeat right top;
+  padding-right: 10px;
+}
+
+#zeus-ribbon .zeus-modal > .zeus-modal-box-2 > div {
+  background: url(/zeusCore/img/ribbon/modal/shadow-2.png) no-repeat left top;
+  height: 12px;
+}
+
+/*# END RIBBON RELATED STYLING*/
+
+#disclaimer {
+  color: red;
+  text-align: center;
+}
+
+
+
+
+
+
+
+#zeus-ribbon .zeus-button-disabled p, #zeus-ribbon .zeus-button-disabled a {
+	color: #cecece;
+}
+
+#zeus-ribbon .zeus-button-disabled .zeus-button-icon, .modifier-button-disabled {
+  filter: alpha(opacity=20);
+  -moz-opacity: 0.2;
+  opacity: 0.2;}
+}
+
+#zeus-ribbon .zeus-button-disabled.zeus-button-1:hover,
+#zeus-ribbon .zeus-button-disabled.zeus-button-2:hover,
+#zeus-ribbon .zeus-button-disabled.zeus-button-1 > div:hover, 
+#zeus-ribbon .zeus-button-disabled.zeus-button-2 > div:hover {
+	background: none !important;
+	cursor: default;
+}
+	 
+#zeus-ribbon .zeus-modal ul.element-list {
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+
+#zeus-ribbon .zeus-modal ul.element-list li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#zeus-ribbon .zeus-modal ul li .list-item-container {
+  padding: 2px 2px 2px 6px;	
+}
+
+#zeus-ribbon .zeus-modal ul li .list-item-inner-container {
+  cursor: pointer;
+}
+
+#zeus-ribbon .zeus-modal ul li:hover {
+  background: url(/zeusCore/img/ribbon/modal/modal-list-hover-right.png) repeat top right;  
+}
+
+#zeus-ribbon .zeus-modal ul li:hover .list-item-footer-container {
+  background: url(/zeusCore/img/ribbon/modal/modal-list-hover-bottom-right.png) repeat-x bottom right;
+  padding-bottom: 0 !important;
+}
+
+#zeus-ribbon .zeus-modal ul li:hover .list-item-container {
+  background: url(/zeusCore/img/ribbon/modal/modal-list-hover-left.png) repeat-y top left;
+}
+
+#zeus-ribbon .zeus-modal ul li:hover .list-item-footer-left-container {
+  background: url(/zeusCore/img/ribbon/modal/modal-list-hover-bottom-left.png) no-repeat bottom left;
+}
+
+#zeus-ribbon .zeus-modal ul .list-item-footer-left-container { 
+  height: 2px;
+}
+
+
+#zeus-ribbon .zeus-button-label {
+  text-align: center;
+  line-height: 14px;
+}

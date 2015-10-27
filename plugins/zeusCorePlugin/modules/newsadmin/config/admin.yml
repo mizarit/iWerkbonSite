@@ -1,0 +1,52 @@
+list:
+  title:     Nieuws
+  name:      nieuwsitem
+  adapter:   propel
+  view:      basic
+  model:     news
+  fields:    
+    title:
+      label: Titel
+    date:
+      label: Startdatum
+      notation: d-m-Y
+      width: 120
+    enddate:
+      label: Einddatum
+      notation: d-m-Y 
+      width: 120
+    shown:
+      label: Getoond
+      type: { helper: News, method: news_list_shown }
+      width: 70
+    sites:
+      label: Websites
+      type: { helper: News, method: news_list_sites }
+      width: 300
+  ordering:  [ title, date ]
+  order:     date desc
+  helper: { helper: News, method: news_list_import }
+  
+edit:
+  fields:    
+    title:
+      label:  Titel
+      type:   input
+    date:
+      label:  Startdatum
+      type:   date
+    enddate:
+      label:  Einddatum
+      type:   date
+    visible:
+      label:  Tonen
+      type:   checkbox 
+    sites:
+      label:  Websites
+      type:   { helper: News, method: news_edit_sites } 
+    contentshort:
+      label:  Introtekst
+      type:   text
+    content:  
+      label:  Inhoud
+      type:   rich

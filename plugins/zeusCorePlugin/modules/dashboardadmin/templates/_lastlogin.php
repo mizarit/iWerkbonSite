@@ -1,0 +1,2 @@
+<h2>Welkom terug <?php echo $user->getTitle(); ?></h2>
+<p>Je was voor het laatst ingelogd op <?php echo date('d-m-Y', strtotime($user->getLastlogin())); ?> om <?php echo date('H:i', strtotime($user->getLastlogin())); ?> vanaf <?php echo $user->getLastip() ?>.</p>

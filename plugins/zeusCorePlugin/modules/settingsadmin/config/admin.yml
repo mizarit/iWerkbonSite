@@ -1,0 +1,16 @@
+list:
+  title:     Instellingen
+  name:      instelling
+  adapter:   propel
+  view:      basic
+  model:     user
+  buttons:
+    create: disable
+    delete: disable
+    settings:   { helper: Settings, method: list_settings_save }
+  helper:       { helper: Settings, method: list_settings_form }
+edit:
+  fields:    
+    title:
+      label:  Naam
+      type:   input

@@ -1,0 +1,8 @@
+imageSuccess:
+  has_layout:       false
+  http_metas:
+    content-type:   image/gif
+    expires:        Wed, 1 Jan 1997 00:00:00 GMT
+    cache-control:  no-store, no-cache, must-revalidate
+    cache-control:  post-check=0, pre-check=0
+    pragma:         no-cache

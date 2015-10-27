@@ -44,3 +44,13 @@ Temporary Items
 .idea/encodings.xml
 *.cfs
 .idea/workspace.xml
+data/sql/*
+data/index/*
+lib/model/map/*
+lib/model/om/*
+lib/vendor/symfony-1.4.8/*
+
+
+
+data/fixtures/fixtures.yml
+*.csv

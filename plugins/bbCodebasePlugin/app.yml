@@ -1,0 +1,4 @@
+all:
+  deployer:
+    target_specific_files:		    [ config/databases.yml, web/robots.txt, apps/frontend/config/app.yml, apps/frontend/config/settings.yml, apps/frontend/config/factories.yml, apps/frontend/config/view.yml ]
+    database_extra_dirs:            [ data/sql-updates ]

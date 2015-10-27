@@ -1,0 +1,37 @@
+list:
+  title:     Gebruikers
+  name:      gebruiker
+  labels:
+    create:  Nieuwe gebruiker
+  adapter:   propel
+  view:      basic
+  model:     user
+  fields:    
+    title:
+      label: Naam
+    username:
+      label: Gebruikersnaam
+    email:
+      label: E-mail adres
+  ordering:  [ title, username, email]
+  order:     title
+  
+edit:
+  fields:    
+    title:
+      label:  Naam
+      type:   input
+    username:
+      label: Gebruikersnaam
+      type:   input
+    email:
+      label: E-mail adres
+      type:   input
+    passwd:
+      label: Wachtwoord
+      help:   Het wachtwoord kan alleen aangepast worden, niet uitgelezen. Indien er niets is ingevuld wordt het wachtwoord niet aangepast.
+      type:  { helper: Useradmin, method: useradmin_edit_password }
+    groups:
+      label: Groepen
+      type:  link1ton
+      table: ugroup

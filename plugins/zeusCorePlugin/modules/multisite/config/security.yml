@@ -1,0 +1,6 @@
+all:
+  is_secure: true
+  
+directlogin:
+  is_secure: false
+  

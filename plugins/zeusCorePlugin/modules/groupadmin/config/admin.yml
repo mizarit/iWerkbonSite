@@ -1,0 +1,19 @@
+list:
+  title:     Groepen
+  name:      groep
+  labels:
+    create:  Nieuwe groep
+  adapter:   propel
+  view:      basic
+  model:     ugroup
+  fields:    
+    title:
+      label: Naam
+  ordering:  [ title ]
+  order:     title
+  
+edit:
+  fields:    
+    title:
+      label:  Naam
+      type:   input

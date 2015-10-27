@@ -1,0 +1,59 @@
+list:
+  title:     Demo
+  name:      demo
+  labels:
+    create:  Nieuwe demo
+  adapter:   propel
+  view:      basic
+  model:     demo
+  fields:    
+    title:
+      label: Titel
+  ordering:  [ title ]
+  order:     title
+  
+edit:
+  fields:    
+    title:
+      label:  Input
+      type:   input
+    dtext:
+      label:  Plain text
+      type:   text
+    dcheck:
+      label:  Checkbox
+      type:   checkbox
+    ddate:
+      label:  Date
+      type:   date
+    dfile:
+      label:  File
+      type:   file
+    dimage:
+      label:  Image
+      type:   image
+    dprice:
+      label:  Price
+      type:   price
+    dselect:
+      label:  Select
+      type:   select
+      options:
+        - option 1
+        - option 2
+        - option 3
+    rel1:
+      label:  Link 1-to-many
+      type:   link1ton
+      table:  demodata
+    content:  
+      label:  Rich text
+      type:   rich
+    #images:
+    #  label:  Images
+    #  type:   images
+    
+    #demodata:
+    #  label:  Linklist
+    #  options:
+    #    relation: demodata

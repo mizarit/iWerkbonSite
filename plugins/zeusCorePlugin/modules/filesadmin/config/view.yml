@@ -1,0 +1,5 @@
+browserSuccess:
+  layout:     popup
+  
+  stylesheets:    
+    - /zeusCore/css/zeus-backend-popup-screen.css

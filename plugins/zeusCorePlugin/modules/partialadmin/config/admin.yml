@@ -1,0 +1,28 @@
+list:
+  title:     Teksten
+  name:      tekst
+  labels:
+    create:  Nieuwe tekst
+  adapter:   propel
+  view:      basic
+  model:     page
+  fields:    
+    title:
+      label: Titel
+  ordering:  [ title ]
+  order:     title
+  criteria:
+    htmltitle: 
+      value:  PARTIAL
+      method: EQUAL
+edit:
+  fields:    
+    title:
+      label:    Titel
+      type:     input
+      readonly: true
+    content:  
+      label:    Inhoud
+      type:     rich
+    
+    

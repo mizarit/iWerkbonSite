@@ -1,0 +1,4 @@
+jsonSuccess:
+  http_metas:
+    content-type: application/javascript
+  has_layout:     false

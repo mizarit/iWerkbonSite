@@ -1,0 +1,32 @@
+list:
+  title:     Paginas
+  name:      pagina
+  labels:
+    create:  Nieuwe pagina
+  adapter:   propel
+  view:      basic
+  model:     page
+  fields:    
+    title:
+      label: Titel
+  ordering:  [ title ]
+  order:     title
+  criteria:
+    htmltitle:
+      value:  PARTIAL
+      method: NOT_EQUAL
+  
+edit:
+  fields:    
+    title:
+      label:    Titel
+      type:     input
+    htmltitle:
+      label:    HTML titel
+      type:     input
+      #readonly: true
+    content:  
+      label:    Inhoud
+      type:     rich
+    
+    

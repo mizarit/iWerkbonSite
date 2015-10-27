@@ -1,0 +1,27 @@
+list:
+  title:     Formulieren
+  name:      formulier
+  adapter:   propel
+  view:      basic
+  model:     form
+  fields:    
+    title:
+      label:  Naam
+    email:
+      label:  Beheerder
+  ordering:  [ title, email ]
+  order:     title asc
+  
+edit:
+  fields:    
+    title:
+      label:  Naam
+      type:   input
+    email:
+      label:  Beheerder
+      type:   input
+    rows:
+      label:  Velden
+      type:   { helper: Formeditoradmin, method: edit_formeditoradmin_rows }
+      
+    

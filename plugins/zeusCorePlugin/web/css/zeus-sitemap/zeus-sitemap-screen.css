@@ -1,0 +1,117 @@
+.sitemap a {
+  color: #000;
+  padding: 2px 0;
+  text-decoration: none;
+}
+
+.sitemap a:hover {
+  text-decoration: underline;
+}
+
+.sitemap img {
+  line-height: 0;
+}
+
+.sitemap li {
+  line-height: 18px;
+  min-height: 18px;
+}
+
+.sitemap {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.sitemap li {
+  background: url(/zeusCore/img/sitemap/leaf.gif) bottom left no-repeat;
+  line-height: 18px;
+  list-style: none;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.sitemap ul li {
+  margin-left: 20px !important;
+}
+
+.sitemap li a {
+  padding-left: 20px;
+}
+
+.sitemap .last {
+  background: url(/zeusCore/img/sitemap/last.gif) no-repeat;
+}
+
+.sitemap .root {
+  background: none;
+  padding: 0;
+}
+
+.sitemap .root a {
+  background: url(/zeusCore/img/sitemap/folder-open.gif) no-repeat top left;
+  text-decoration: underline;
+}
+  
+.sitemap .open-last {
+  background: url(/zeusCore/img/sitemap/last-open.gif) no-repeat;
+}
+
+.sitemap li.closed {
+  background: url(/zeusCore/img/sitemap/node-closed.gif) no-repeat;
+}
+
+.sitemap li.closed-last {
+  background: url(/zeusCore/img/sitemap/last-closed.gif) no-repeat;
+}
+
+.sitemap li.open {
+  background: url(/zeusCore/img/sitemap/branch.gif) bottom left repeat-y;
+}
+
+.sitemap li.open-last {
+  background: none;
+}
+
+.sitemap li.open, .sitemap li.closed {
+  padding-left: 0;
+}
+
+.sitemap li.open ul, .sitemap li.closed ul {
+  padding-left: 20px;
+}
+
+.sitemap a.open, .sitemap a.closed {
+  background: url(/zeusCore/img/sitemap/node-open.gif) no-repeat;
+  height: 18px;
+  width: 20px;
+  
+  _width: 18px;
+  *display: block;
+  *float: left;
+  *padding: 0;
+}
+
+.sitemap a.closed {
+  background: url(/zeusCore/img/sitemap/node-closed.gif) no-repeat;
+}
+
+.sitemap a.closed-last {
+  background: url(/zeusCore/img/sitemap/last-closed.gif) no-repeat;
+}
+
+.sitemap a.open-last {
+  background: #fff url(/zeusCore/img/sitemap/last-open.gif) no-repeat;
+}
+
+.sitemap li.closed ul {
+  display: none;
+}
+
+.sitemap a {
+  background: url(/zeusCore/img/sitemap/folder.gif) no-repeat;
+}
+
+.sitemap li.open span a {
+  background: url(/zeusCore/img/sitemap/folder-open.gif) no-repeat;
+  padding-left: 20px;
+}

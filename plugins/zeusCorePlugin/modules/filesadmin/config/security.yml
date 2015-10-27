@@ -1,0 +1,6 @@
+all:
+  is_secure: false
+  
+upload:
+  is_secure: false
+  

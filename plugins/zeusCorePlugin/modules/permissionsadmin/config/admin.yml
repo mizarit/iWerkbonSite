@@ -1,0 +1,16 @@
+list:
+  title:     Rechten toewijzen
+  name:      rechten
+  adapter:   propel
+  view:      basic
+  model:     user
+  buttons:
+    create: disable
+    delete: disable
+    settings:   { helper: ZeusPermissions, method: list_permissions_save }
+  helper:       { helper: ZeusPermissions, method: list_permissions_form }
+edit:
+  fields:    
+    title:
+      label:  Naam
+      type:   input

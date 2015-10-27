@@ -1,0 +1,3 @@
+googlesitemap:
+  url: /ggs
+  param: { module: sitemap, action: googleSitemap }

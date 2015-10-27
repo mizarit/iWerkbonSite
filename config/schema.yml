@@ -1,0 +1,243 @@
+propel:
+  company:
+    _attributes:      { phpName: Company, package: lib.model }
+    title:            varchar(255)
+    phone:            varchar(255)
+    calendar_id:      integer
+    address_id:
+  
+  setting:
+    _attributes:      { phpName: Setting, package: lib.model }
+    skey:             varchar(255)
+    svalue:           varchar(255)
+    company_id:
+    
+  connection:
+    _attributes:      { phpName: Connection, package: lib.model }
+    company_id:
+    adapter:          varchar(16)
+    api_key:          varchar(255)
+    api_secret:       varchar(255)
+    api_server:       varchar(255)
+    datatype:         varchar(16)
+    active:           boolean
+
+  workorder:
+    _attributes:      { phpName: Workorder, package: lib.model }
+    company_id:
+    resource_id:
+    address_id:
+    customer_id:
+    status:         varchar(8)
+    date:           timestamp
+    remarks:        longvarchar
+    orderrows:      longvarchar
+    signature:      varchar(255)
+    ready:          boolean
+
+  invoice:
+    _attributes:      { phpName: Invoice, package: lib.model }
+    company_id:
+    resource_id:
+    address_id:
+    customer_id:
+    workorder_id:
+    status:         varchar(8)
+    date:           timestamp
+    orderrows:      longvarchar
+    total:          float
+    pdf:            varchar(255)
+    no:             varchar(16)
+
+  payment:
+    _attributes:      { phpName: Payment, package: lib.model }
+    invoice_id:
+    paymethod:      varchar(8)
+    total:          float
+    status:         varchar(8)
+    date:           timestamp
+
+  administrator:
+    _attributes:      { phpName: Administrator, package: lib.model }
+    company_id:
+    credentials_id:
+    title:           varchar(255)
+    email:           varchar(255)
+    phone:           varchar(255)
+
+  credentials:
+    _attributes:      { phpName: Credentials, package: lib.model }
+    company_id:
+    type:            varchar(8)
+    username:        varchar(255)
+    password:        varchar(255)
+    salt:            varchar(255)
+    active:          boolean
+
+  team:
+    _attributes:      { phpName: Team, package: lib.model }
+    company_id:
+    title:           varchar(255)
+
+  resource:
+    _attributes:      { phpName: Resource, package: lib.model }
+    company_id:
+    credentials_id:
+    team_id:
+    oa_resource_id:  integer
+    name:            varchar(255)
+    email:           varchar(255)
+    phone:           varchar(255)
+    xid:             varchar(255)
+
+  customer:
+    _attributes:      { phpName: Customer, package: lib.model }
+    company_id:
+    title:           varchar(255)
+    email:           varchar(255)
+    phone:           varchar(255)
+    address_id:
+    oa_customer_id:  integer
+
+  note:
+    _attributes:      { phpName: Note, package: lib.model }
+    company_id:
+    customer_id:
+    date:           timestamp
+    note:           longvarchar
+
+  mutation:
+    _attributes:      { phpName: Mutation, package: lib.model }
+    customer_id:
+    mtype:            varchar(16)
+    mdata:            varchar(255)
+    object1:          varchar(16)
+    object2:          varchar(16)
+    mutator:          varchar(255)
+    credentials_id:   integer
+
+  address:
+    _attributes:      { phpName: Address, package: lib.model }
+    address:          varchar(64)
+    zipcode:          varchar(8)
+    city:             varchar(64)
+    country:          varchar(2)
+    longitude:        float
+    latitude:         float
+
+  appointment:
+   _attributes:      { phpName: Appointment, package: lib.model }
+   customer_id:
+   address_id:
+   duration:          integer
+   date:              timestamp
+   enddate:           timestamp
+   title:             varchar(255)
+   remarks:           longvarchar
+   orderrows:         longvarchar
+   color:             integer
+   workorder_id:      integer
+   resource_id:       integer
+   team_id:           integer
+   oa_appointment_id: integer
+   active:            boolean
+
+  file:
+    _attributes:      { phpName: File, package: lib.model }
+    ftype:            varchar(8)
+    path:             varchar(255)
+    date:             timestamp
+    uploader:         varchar(255)
+    credentials_id:   integer
+    customer_id:      integer
+    workorder_id:     integer
+
+  supplier:
+    _attributes:      { phpName: Supplier, package: lib.model }
+    company_id:
+    title:           varchar(255)
+    email:           varchar(255)
+    phone:           varchar(255)
+    address_id:
+
+  operator:
+    _attributes:      { phpName: Operator, package: lib.model }
+    company_id:
+    title:           varchar(255)
+    email:           varchar(255)
+    phone:           varchar(255)
+    address_id:
+
+  category:
+    _attributes:      { phpName: Category, package: lib.model }
+    company_id:
+    title:          varchar(255)
+    tree_left:      integer
+    tree_right:     integer
+    tree_parent:    integer
+    tree:           integer
+
+  product:
+    _attributes:      { phpName: Product, package: lib.model }
+    company_id:
+    title:          varchar(255)
+    price:          float
+    vat:            integer
+    inclvat:        boolean
+
+  product_category:
+    _attributes:      { phpName: ProductCategory, package: lib.model }
+    company_id:
+    product_id:
+    category_id:
+
+  partial:
+    _attributes:      { phpName: Partial, package: lib.model }
+    key:              varchar(255)
+    text:             longvarchar
+
+  field:
+    _attributes:      { phpName: Field, package: lib.model }
+    company_id:
+    ftype:          varchar(8)
+    form:           varchar(8)
+    label:          varchar(255)
+    options:        longvarchar
+    active:         boolean
+
+  field_value:
+    _attributes:      { phpName: FieldValue, package: lib.model }
+    company_id:
+    field_id:
+    value:          varchar(255)
+    object_id:      integer
+
+  checklist:
+    _attributes:      { phpName: Checklist, package: lib.model }
+    company_id:
+    title:          varchar(255)
+    active:         boolean
+
+  checklist_row:
+    _attributes:      { phpName: ChecklistRow, package: lib.model }
+    checklist_id:
+    label:          varchar(255)
+    active:         boolean
+
+  checklist_value:
+    _attributes:      { phpName: ChecklistValue, package: lib.model }
+    workorder_id:
+    checklist_row_id:
+    value:          boolean
+
+  checklist_appointment:
+    _attributes:      { phpName: ChecklistAppointment, package: lib.model }
+    appointment_id:
+    checklist_id:
+
+
+
+
+
+  
+    

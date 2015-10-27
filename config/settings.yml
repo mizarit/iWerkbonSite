@@ -1,0 +1,4 @@
+all:
+  default_culture:  nl_NL
+  enabled_cultures: [ nl_NL, en_US ]
+  i18n:             on

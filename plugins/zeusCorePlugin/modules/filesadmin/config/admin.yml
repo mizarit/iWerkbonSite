@@ -1,0 +1,16 @@
+list:
+  title:     Bestanden
+  name:      bestand
+  buttons:   
+    create:  disable
+    delete:  { helper: Files, method: files_delete_button }
+    upload:  { helper: Files, method: files_upload_button, toolbar: "Bestand uploaden" }
+  model:     file
+  callback:  { helper: Files, method: files_container }
+  
+edit:
+  buttons:   
+    delete:  disable
+    save:    disable
+
+    

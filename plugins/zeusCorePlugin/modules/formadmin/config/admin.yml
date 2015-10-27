@@ -1,0 +1,30 @@
+list:
+  title:     Ingevulde formulieren
+  name:      formulier
+  buttons:   
+    create:  disable
+    export:  { helper: Formdata, method: formdata_export_button}
+  adapter:   propel
+  view:      basic
+  model:     formdata
+  fields:    
+    date:
+      label: Datum
+      notation: d-m-Y H:i:s
+    title:
+      label:  Formulier
+    name:
+      label:  Afzender
+  ordering:  [ date, title, name ]
+  order:     date desc
+  
+edit:
+  buttons:   
+    delete:  disable
+    save:    disable
+  fields:    
+    title:
+      label:  Formulier
+      type:   { helper: Formdata, method: formdata_view }
+      
+    
