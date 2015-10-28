@@ -52,12 +52,13 @@ class adminActions extends sfActions
               if ($response) {
                 $appointments = $response['Appointment'];
                 foreach($appointments as $appointment) {
-
                   $c->clear();
                   $c->add(AppointmentPeer::OA_APPOINTMENT_ID, $appointment['Id']);
+                  $c->add(AppointmentPeer::COMPANY_ID, $company->getId());
                   $local_app = AppointmentPeer::doSelectOne($c);
                   if (!$local_app) {
                     $local_app = new Appointment;
+                    $local_app->setCompanyId($company->getId());
                     $local_app->setOaAppointmentId($appointment['Id']);
                     $local_app->setDate($appointment['StartTime']);
                     $local_app->setEndDate($appointment['FinishTime']);
@@ -731,7 +732,7 @@ class adminActions extends sfActions
                     $field_value = new FieldValue;
                     $field_value->setCompanyId($company->getId());
                     $field_value->setFieldId($i);
-                    $field_value->setObjectId($appointment->getId());
+                    $field_value->setObjectId($form == 'customer' ? $customer->getId() : $appointment->getId());
                   }
                   $field_value->setValue($value);
                   $field_value->save();
@@ -3021,6 +3022,7 @@ class adminActions extends sfActions
       $resource->setCompanyId($credentials->getCompanyId());
       $resource_credentials = new Credentials;
       $resource_credentials->setType('resource');
+      $resource_credentials->setActive(true);
       $resource_credentials->setCompanyId($credentials->getCompanyId());
     }
     else {

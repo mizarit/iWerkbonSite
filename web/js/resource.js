@@ -21,6 +21,9 @@ Event.observe(window, 'load', function() {
                     'resource-oa': 'resource-oa',
                     active: 'resource-active'
                 },
+                customRender: function(data) {
+                  $('resource-active').setAttribute('checked', 'checked');
+                },
                 listView: resource_list
             });
         },

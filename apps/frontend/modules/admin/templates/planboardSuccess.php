@@ -303,9 +303,9 @@ else {
   localStorage.setItem('expire_planboard', now);
 
   var companyInfo = {
-    name: '<?php echo $company->getTitle(); ?>',//'Rijnstreek Verwarming B.V.',
-    longitude:  <?php echo $company->getAddress()->getLongitude(); ?>,
-    latitude:  <?php echo $company->getAddress()->getLatitude(); ?>
+    name: '<?php echo $company->getTitle(); ?>',
+    longitude:  <?php echo $company->getAddress()->getLongitude() != '' ? $company->getAddress()->getLongitude() : '4.4532838'; ?>,
+    latitude:  <?php echo $company->getAddress()->getLatitude() != '' ? $company->getAddress()->getLatitude() : '52.1480517'; ?>
   }
 
   Event.observe(document, 'dom:loaded', function() {

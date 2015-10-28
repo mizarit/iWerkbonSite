@@ -1,3 +1,5 @@
+var reload_list = null;
+
 window.GenericList = Class.create({
     data: [],
     all_data: null,
@@ -47,10 +49,10 @@ window.GenericList = Class.create({
         $('loader').removeClassName('active');
     },
 
-    forcedReload: function()
+    forcedReload: function(elem)
     {
-        var tthis = this;
-        new Ajax.Request(this.data_url, {
+        var tthis = elem ? reload_list : this;
+        new Ajax.Request(tthis.data_url, {
             onSuccess: function (transport) {
                 tthis.data = transport.responseJSON.data;
                 now = Date.now() / 1000 | 0;
@@ -122,6 +124,9 @@ window.GenericList = Class.create({
 */
         //exporto = this.renderExport();
         //$(this.element).insert(exporto);
+
+        reload = this.renderReload();
+        $(this.element).insert(reload);
 
         pager = this.renderPager();
         $(this.element).insert(pager);
@@ -268,6 +273,22 @@ window.GenericList = Class.create({
         i.addClassName('fa fa-file-zip-o');
         li.insert(i);
         ul.insert(li);
+        return ul;
+    },
+
+    renderReload: function()
+    {
+        var ul = new Element('ul');
+        ul.addClassName('export');
+        var li = new Element('li');
+        var i = new Element('i');
+        i.setAttribute('title', 'Forceer opnieuw laden');
+        i.addClassName('fa fa-refresh');
+        li.insert(i);
+        ul.insert(li);
+
+        reload_list = this;
+        Event.observe(li, 'click', reload_list.forcedReload);
         return ul;
     },
 

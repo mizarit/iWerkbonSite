@@ -30,6 +30,8 @@ propel:
     customer_id:
     status:         varchar(8)
     date:           timestamp
+    start:          timestamp
+    finish:         timestamp
     remarks:        longvarchar
     orderrows:      longvarchar
     signature:      varchar(255)
@@ -132,6 +134,7 @@ propel:
    _attributes:      { phpName: Appointment, package: lib.model }
    customer_id:
    address_id:
+   company_id:
    duration:          integer
    date:              timestamp
    enddate:           timestamp
